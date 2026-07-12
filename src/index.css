@@ -87,12 +87,12 @@ button,
   --charcoal: #34373f;
   --charcoal-muted: #7f8491;
   --green-muted: #eaf5e6;
-  
+
   --overlay-bg: rgba(255, 255, 255, 0.5);
   --publish-modal-gradient: linear-gradient(90deg, rgba(255, 255, 255, 0.35), #ffffff 10%, #ffffff 100%);
   --breadcrumb-gradient: linear-gradient(to right, #ffffff 0%, transparent 100%);
   --tooltip-bg: #ffffff;
-  
+
   /* File selection */
   --file-row-selected-bg: #daedf5;
   --action-bar-bg: #F0F6FA;
@@ -110,7 +110,7 @@ button,
   --snow-muted: rgb(28, 30, 31);
   --border-color: rgba(140, 130, 115, 0.5);
   --green-muted: #1e3a1e;
-  
+
   --overlay-bg: rgba(0, 0, 0, 0.5);
   --publish-modal-gradient: linear-gradient(90deg, rgba(31, 38, 46, 0.35), var(--element-bg) 10%, var(--element-bg) 100%);
   --breadcrumb-gradient: linear-gradient(to right, var(--element-bg) 0%, transparent 100%);
@@ -131,66 +131,76 @@ button,
   /* Basic html background */
   background-color: var(--background);
   color: var(--text);
-
-  /* Override Tachyons/IPFS-CSS utility classes */
-  .bg-white, .bg-white-80 { background-color: var(--element-bg) !important; }
-  .bg-snow, .bg-snow-muted { background-color: var(--snow-muted) !important; }
-  .bg-near-white { background-color: var(--snow-muted) !important; }
-  .bg-light-gray { background-color: var(--snow-muted) !important; }
-  .bg-white-70 { background-color: var(--element-bg) !important; opacity: 1 !important; }
-  .charcoal { color: var(--charcoal) !important; }
-  .charcoal-muted { color: var(--charcoal-muted) !important; }
-  .navy { color: var(--text) !important; }
-  .dark-gray { color: var(--text) !important; }
-
-  /* Map theming */
-  .world-map {
-    filter: invert(0.85) hue-rotate(180deg) opacity(0.6);
-  }
-  
-  
-  .webui-header { background-color: var(--snow-muted) !important; }
-
-  /* Tachyons borders */
-  .b--black-20 { border-color: var(--border-color) !important; }
-  .b--black-10 { border-color: var(--border-color) !important; }
-  .b--near-white { border-color: var(--border-color) !important; }
-  
-  /* Dropdown / Modal specifics */
-  .shadow-4 { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8) !important; }
-  /* The background prop on @tableflip/react-dropdown now injects var(--element-bg)
-     as an inline style on both the menu panel and the arrow, so no !important needed here.
-     We keep a fallback class rule in case any other code path still hits .dropdown-menu. */
-  .dropdown-menu { background-color: var(--element-bg) !important; }
-  /* Arrow triangles rendered by @tableflip/react-dropdown use border-color tricks;
-     the library reads the background prop and sets border-color on the arrow div. */
-  .hover-bg-near-white:hover,
-  .hover-bg-near-white:focus { background-color: var(--snow-muted) !important; }
-  
-  /* Text and link colors */
-  h1, h2, h3, h4, h5, h6, .black, .montserrat, .navy {
-    color: var(--text) !important;
-  }
-  
-  /* Inputs, textareas, selects */
-  input[type="text"], input[type="number"], textarea, select {
-    background-color: var(--element-bg);
-    color: var(--text);
-    border-color: var(--border-color);
-  }
-  ::placeholder {
-    color: var(--charcoal-muted) !important;
-    opacity: 0.7 !important;
-  }
-  
-  /* External Check Iframe */
-  iframe[title^="ipfs-check"] {
-    filter: invert(0.9) hue-rotate(180deg);
-  }
-
-  /* Warning boxes */
-  .bg-washed-yellow { background-color: rgba(204, 153, 0, 0.2) !important; }
 }
+
+/* Override Tachyons/IPFS-CSS utility classes */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-white-80 { background-color: var(--element-bg) !important; }
+[data-theme="dark"] .bg-snow,
+[data-theme="dark"] .bg-snow-muted { background-color: var(--snow-muted) !important; }
+[data-theme="dark"] .bg-near-white { background-color: var(--snow-muted) !important; }
+[data-theme="dark"] .bg-light-gray { background-color: var(--snow-muted) !important; }
+[data-theme="dark"] .bg-white-70 { background-color: var(--element-bg) !important; opacity: 1 !important; }
+[data-theme="dark"] .charcoal { color: var(--charcoal) !important; }
+[data-theme="dark"] .charcoal-muted { color: var(--charcoal-muted) !important; }
+[data-theme="dark"] .navy { color: var(--text) !important; }
+[data-theme="dark"] .dark-gray { color: var(--text) !important; }
+
+/* Map theming */
+[data-theme="dark"] .world-map {
+  filter: invert(0.85) hue-rotate(180deg) opacity(0.6);
+}
+
+[data-theme="dark"] .webui-header { background-color: var(--snow-muted) !important; }
+
+/* Tachyons borders */
+[data-theme="dark"] .b--black-20 { border-color: var(--border-color) !important; }
+[data-theme="dark"] .b--black-10 { border-color: var(--border-color) !important; }
+[data-theme="dark"] .b--near-white { border-color: var(--border-color) !important; }
+
+/* Dropdown / Modal specifics */
+[data-theme="dark"] .shadow-4 { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8) !important; }
+/* The background prop on @tableflip/react-dropdown injects var(--element-bg) as an inline
+   style on both the menu panel and the arrow. The class rule below is a belt-and-suspenders
+   fallback for any code path that still hits .dropdown-menu via CSS. */
+[data-theme="dark"] .dropdown-menu { background-color: var(--element-bg) !important; }
+[data-theme="dark"] .hover-bg-near-white:hover,
+[data-theme="dark"] .hover-bg-near-white:focus { background-color: var(--snow-muted) !important; }
+
+/* Text and link colors */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] .black,
+[data-theme="dark"] .montserrat,
+[data-theme="dark"] .navy {
+  color: var(--text) !important;
+}
+
+/* Inputs, textareas, selects */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: var(--element-bg);
+  color: var(--text);
+  border-color: var(--border-color);
+}
+[data-theme="dark"] ::placeholder {
+  color: var(--charcoal-muted) !important;
+  opacity: 0.7 !important;
+}
+
+/* External Check Iframe */
+[data-theme="dark"] iframe[title^="ipfs-check"] {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
+/* Warning boxes */
+[data-theme="dark"] .bg-washed-yellow { background-color: rgba(204, 153, 0, 0.2) !important; }
 
 html[data-theme="dark"] body {
   background-color: var(--background);
