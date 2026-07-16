@@ -43,9 +43,17 @@ test.describe.serial('Share Link types', () => {
     await ipfs.files.cp(`/ipfs/${CID}`, `/${FILENAME}`, { flush: true }).catch(() => {})
   })
 
-  test('default is a native ipfs:// URI (base32 CIDv1)', async ({ page }) => {
+  test('default is a subdomain link on dweb.link (DEFAULT_SUBDOMAIN_GATEWAY)', async ({ page }) => {
     await page.goto('/#/files')
     await applySettings(page, {})
+    await page.reload()
+    const input = await openShareLinkInput(page)
+    await expect(input).toHaveValue(`https://${CID}.ipfs.dweb.link?filename=${FILENAME}`)
+  })
+
+  test('native type copies an ipfs:// URI (base32 CIDv1)', async ({ page }) => {
+    await page.goto('/#/files')
+    await applySettings(page, { type: 'native' })
     await page.reload()
     const input = await openShareLinkInput(page)
     await expect(input).toHaveValue(`ipfs://${CID}?filename=${FILENAME}`)
@@ -104,7 +112,7 @@ test.describe.serial('Share Link types', () => {
     await page.goto('/#/settings')
     await applySettings(page, {})
     await page.reload()
-    // Native is the default; pick the local path option and confirm it is stored.
+    // Pick the local path option and confirm it is stored.
     await page.getByText('Local gateway, path link', { exact: true }).click()
     await expect
       .poll(() => page.evaluate((k) => {

@@ -144,8 +144,9 @@ test.describe('IPNS publishing', () => {
       // IPNS publishing can take time depending on network/DHT conditions
       await expect(page.getByText('Successfully published')).toBeVisible({ timeout: 30000 })
 
-      // Default share link type is native, so the published link is an ipns:// URI
-      await expect(page.locator('div[role="dialog"] input[readonly]')).toHaveValue(/^ipns:\/\//)
+      // Default share link type is the public subdomain gateway, so the
+      // published link puts the base36 IPNS name in a dweb.link subdomain
+      await expect(page.locator('div[role="dialog"] input[readonly]')).toHaveValue(/^https:\/\/k\w+\.ipns\.dweb\.link$/)
 
       await ipns.doneButton(page).click()
 

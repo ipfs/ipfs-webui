@@ -2,16 +2,23 @@ import { createSelector } from 'redux-bundler'
 import { readSetting, writeSetting } from './local-storage.js'
 import { SHARE_LINK_TYPE, DEFAULT_SHARE_LINK_TYPE, resolveEffectiveShareLinkType } from '../lib/share-link.js'
 
+// Public gateways prefilled on a fresh node; DEFAULT_SHARE_LINK_TYPE in
+// lib/share-link.js points share links at the subdomain one. Clearing a
+// gateway in Settings opts out of it entirely (share links then fall back to
+// native ipfs:// URIs). Set these to '' to ship with no predefined public
+// gateways at all.
+export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
+export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
 export const DEFAULT_IPFS_CHECK_URL = 'https://check.ipfs.network'
 // Test gateway URLs used by e2e tests
 export const TEST_PATH_GATEWAY = 'https://e2e-test-path-gateway.test'
 export const TEST_SUBDOMAIN_GATEWAY = 'https://e2e-test-subdomain-gateway.test'
 
-// Public gateways start empty until the user opts in, so a fresh node shares
-// native ipfs:// links rather than routing through a third-party gateway.
+// A stored '' means the user cleared the gateway to opt out of public gateway
+// links; only a setting that was never written gets the default.
 const readPublicGatewaySetting = () => {
   const setting = readSetting('ipfsPublicGateway')
-  return typeof setting === 'string' ? setting : ''
+  return typeof setting === 'string' ? setting : DEFAULT_PATH_GATEWAY
 }
 
 const readLocalGatewaySetting = () => {
@@ -23,7 +30,7 @@ const readLocalGatewaySetting = () => {
 
 const readPublicSubdomainGatewaySetting = () => {
   const setting = readSetting('ipfsPublicSubdomainGateway')
-  return typeof setting === 'string' ? setting : ''
+  return typeof setting === 'string' ? setting : DEFAULT_SUBDOMAIN_GATEWAY
 }
 
 const readIpfsCheckUrlSetting = () => {
@@ -249,11 +256,20 @@ const bundle = {
 
   /**
    * @param {string} type - a SHARE_LINK_TYPE value
-   * @returns {function({dispatch: Function}): Promise<void>}
+   * @returns {function({dispatch: Function, store: any}): Promise<void>}
    */
-  doUpdateShareLinkType: (type) => async ({ dispatch }) => {
+  doUpdateShareLinkType: (type) => async ({ dispatch, store }) => {
     await writeSetting('ipfsShareLinkType', type)
     dispatch({ type: 'SET_SHARE_LINK_TYPE', payload: type })
+    // Choosing a public type also persists the gateway it points at: a
+    // prefilled default is otherwise never written (the gateway form's Submit
+    // is disabled while the value is unchanged), and an explicit opt-in must
+    // keep its gateway even if the DEFAULT_*_GATEWAY constants change later.
+    if (type === SHARE_LINK_TYPE.PUBLIC_PATH) {
+      await writeSetting('ipfsPublicGateway', store.selectPublicGateway())
+    } else if (type === SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN) {
+      await writeSetting('ipfsPublicSubdomainGateway', store.selectPublicSubdomainGateway())
+    }
   },
 
   /**

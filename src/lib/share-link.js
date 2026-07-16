@@ -24,9 +24,12 @@ export const SHARE_LINK_TYPE = {
   PUBLIC_SUBDOMAIN: 'public-subdomain'
 }
 
-// Default to native ipfs:// URIs: a fresh node shares app-agnostic addresses
-// rather than routing through a third-party public gateway until the user opts in.
-export const DEFAULT_SHARE_LINK_TYPE = SHARE_LINK_TYPE.NATIVE
+// A fresh node shares links through the default public subdomain gateway
+// (DEFAULT_SUBDOMAIN_GATEWAY in bundles/gateway.js). To ship native ipfs://
+// sharing by default instead, flip this to SHARE_LINK_TYPE.NATIVE and empty
+// the DEFAULT_*_GATEWAY constants; everything else already copes with unset
+// gateways (see resolveEffectiveShareLinkType).
+export const DEFAULT_SHARE_LINK_TYPE = SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN
 
 // A subdomain gateway puts the CID (or IPNS name) in a DNS label, which is
 // capped at 63 characters.

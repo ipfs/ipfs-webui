@@ -1,6 +1,6 @@
 /* global describe, it, expect, beforeEach */
 import { composeBundles } from 'redux-bundler'
-import gatewayBundle, { localGatewayToKuboGateway, checkValidHttpUrl, DEFAULT_KUBO_GATEWAY } from './gateway.js'
+import gatewayBundle, { localGatewayToKuboGateway, checkValidHttpUrl, DEFAULT_KUBO_GATEWAY, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY } from './gateway.js'
 import configBundle from './config.js'
 import { readSetting } from './local-storage.js'
 import { SHARE_LINK_TYPE, DEFAULT_SHARE_LINK_TYPE } from '../lib/share-link.js'
@@ -123,12 +123,40 @@ describe('gateway bundle actions', () => {
     expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.LOCAL_PATH)
   })
 
-  it('selectEffectiveShareLinkType stays native until the chosen public gateway is set', async () => {
+  it('selectEffectiveShareLinkType stays native while the chosen public gateway is cleared', async () => {
     const store = createStore()
+    await store.doUpdatePublicSubdomainGateway('')
     await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
     expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.NATIVE)
     await store.doUpdatePublicSubdomainGateway('https://subdomain-gw.example.net')
     expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+  })
+})
+
+describe('shipped defaults', () => {
+  beforeEach(() => window.localStorage.clear())
+
+  it('a fresh node has the public gateways prefilled and shares through the subdomain one', () => {
+    const store = createStore()
+    expect(store.selectPublicGateway()).toBe(DEFAULT_PATH_GATEWAY)
+    expect(store.selectPublicSubdomainGateway()).toBe(DEFAULT_SUBDOMAIN_GATEWAY)
+    expect(store.selectShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+    expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+  })
+
+  it('a cleared public gateway stays cleared after a reload instead of reverting to the default', async () => {
+    await createStore().doUpdatePublicGateway('')
+    expect(createStore().selectPublicGateway()).toBe('')
+  })
+
+  it('selecting a public type persists the prefilled default gateway it points at', async () => {
+    const store = createStore()
+    expect(readSetting('ipfsPublicSubdomainGateway')).toBe(null)
+    expect(readSetting('ipfsPublicGateway')).toBe(null)
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+    expect(readSetting('ipfsPublicSubdomainGateway')).toBe(DEFAULT_SUBDOMAIN_GATEWAY)
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH)
+    expect(readSetting('ipfsPublicGateway')).toBe(DEFAULT_PATH_GATEWAY)
   })
 })
 

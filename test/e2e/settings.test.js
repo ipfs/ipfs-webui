@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { test, expect } from './setup/coverage.js'
 import { settings } from './setup/locators.js'
-import { TEST_PATH_GATEWAY, TEST_SUBDOMAIN_GATEWAY } from '../../src/bundles/gateway.js'
+import { DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, TEST_PATH_GATEWAY, TEST_SUBDOMAIN_GATEWAY } from '../../src/bundles/gateway.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -41,8 +41,8 @@ test.describe('Settings screen', () => {
 
     await expect(publicSubdomainGatewayElement).toBeVisible()
 
-    // Empty by default; the user opts into a public gateway.
-    await expect(publicSubdomainGatewayElement).toHaveValue('')
+    // Prefilled with the default subdomain gateway; Clear opts out of it.
+    await expect(publicSubdomainGatewayElement).toHaveValue(DEFAULT_SUBDOMAIN_GATEWAY)
 
     // First, set an invalid value to verify red border appears
     await publicSubdomainGatewayElement.click({ clickCount: 3 })
@@ -82,8 +82,8 @@ test.describe('Settings screen', () => {
 
     await expect(publicGatewayElement).toBeVisible()
 
-    // Empty by default; the user opts into a public gateway.
-    await expect(publicGatewayElement).toHaveValue('')
+    // Prefilled with the default path gateway; Clear opts out of it.
+    await expect(publicGatewayElement).toHaveValue(DEFAULT_PATH_GATEWAY)
 
     // First, set an invalid value to verify red border appears
     await publicGatewayElement.click({ clickCount: 3 })
