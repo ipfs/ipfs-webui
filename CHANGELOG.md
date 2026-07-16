@@ -1,3 +1,30 @@
+## [4.13.0](https://github.com/ipfs/ipfs-webui/compare/v4.12.0...v4.13.0) (2026-07-16)
+
+
+ CID `bafybeiciqeyipumpmhxzlxnbqdbbv6u5uij4hy4wax64dmj7kvrhusiq6y`
+
+ --- 
+
+
+
+### Features
+
+* choose share link type, add native uris ([#2482](https://github.com/ipfs/ipfs-webui/issues/2482)) ([bbd8a31](https://github.com/ipfs/ipfs-webui/commit/bbd8a31b3555bbb6f7d7759cb561bb2cf7b49722)), closes [#2486](https://github.com/ipfs/ipfs-webui/issues/2486)
+* **config:** add Local Gateway URL for reverse proxy and Docker ([#2486](https://github.com/ipfs/ipfs-webui/issues/2486)) ([6a4acab](https://github.com/ipfs/ipfs-webui/commit/6a4acabd535a0f6b86fb68c2f0c3fc7d6e98f82f)), closes [#2458](https://github.com/ipfs/ipfs-webui/issues/2458) [#2383](https://github.com/ipfs/ipfs-webui/issues/2383)
+
+
+### Bug Fixes
+
+* **files:** unpin option missing in batch delete ([#2488](https://github.com/ipfs/ipfs-webui/issues/2488)) ([d87d88b](https://github.com/ipfs/ipfs-webui/commit/d87d88be7ed989cc0985f5f70aa0fa8e3315856b)), closes [ipfs/ipfs-desktop#3134](https://github.com/ipfs/ipfs-desktop/issues/3134)
+* **ipns:** surface publish errors to user ([#2493](https://github.com/ipfs/ipfs-webui/issues/2493)) ([5cdb301](https://github.com/ipfs/ipfs-webui/commit/5cdb3013938b87fad6510b70ca6139b3ce4d4fe9)), closes [#2492](https://github.com/ipfs/ipfs-webui/issues/2492)
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2483](https://github.com/ipfs/ipfs-webui/issues/2483)) ([9037406](https://github.com/ipfs/ipfs-webui/commit/9037406ff72d4baf9969cb1cc4ce3772e634492e))
+* pull transifex translations ([#2491](https://github.com/ipfs/ipfs-webui/issues/2491)) ([2007bd8](https://github.com/ipfs/ipfs-webui/commit/2007bd883944635a8e92f58d11b111e99b4be8b2))
+* pull transifex translations ([#2495](https://github.com/ipfs/ipfs-webui/issues/2495)) ([78ce01a](https://github.com/ipfs/ipfs-webui/commit/78ce01a749de01d44538f311072a1a7d272ec0c3))
+
 ## [4.12.0](https://github.com/ipfs/ipfs-webui/compare/v4.11.1...v4.12.0) (2026-03-02)
 
 
