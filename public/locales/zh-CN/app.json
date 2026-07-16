@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": "输入一个URL (https://ipfs.io)"
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "输入一个URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "固定状态",
     "publicKey": "公钥",
     "publicGateway": "公共网关",
+    "localGateway": "",
     "rateIn": "接收率",
     "rateOut": "发送率",
     "repo": "库",

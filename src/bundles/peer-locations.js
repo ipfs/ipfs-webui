@@ -93,7 +93,7 @@ function createPeersLocations (opts) {
         })
       }
 
-      // Avoid unnecessary selector recomputation and re-renders: return
+      // Avoid unnecessary selector re-computation and re-renders: return
       // the previous data reference when nothing actually changed. This is
       // cheap because memoryCache (HLRU) returns the same value references
       // for the same IPs, so a shallow comparison suffices.

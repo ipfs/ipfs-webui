@@ -46,6 +46,7 @@ export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, eff
     try {
       const startTs = new Date().getTime()
       setStart(startTs)
+      setError(null)
 
       await onSubmit(selectedKey.name)
       // Match the Share Link type chosen in Settings; the effective type
@@ -66,6 +67,8 @@ export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, eff
       const endTs = new Date().getTime()
       doUpdateExpectedPublishTime((endTs - startTs) / 1000)
     } catch (err) {
+      // Leave the progress state so the error renders and Publish re-enables for a retry.
+      setStart(null)
       setError(err)
     }
   }

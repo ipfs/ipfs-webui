@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": ""
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Введите URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "Статус процесса",
     "publicKey": "Публичный ключ",
     "publicGateway": "Публичный шлюз",
+    "localGateway": "",
     "rateIn": "Входящий рейтинг",
     "rateOut": "Исходящий рейтинг",
     "repo": "Репо",

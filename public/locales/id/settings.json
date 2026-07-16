@@ -23,6 +23,7 @@
     "translationProjectLink": "Bergabunglah dengan Proyek Terjemahan IPFS"
   },
   "apiDescription": "<0>Jika node Anda dikonfigurasi dengan <1>alamat API Kubo RPC kustom</1>, termasuk port selain bawaan 5001, masukkan di sini.</0>",
+  "localGatewayDescription": "",
   "publicSubdomainGatewayDescription": "<0>Pilih bawaan <1>Subdomain Gateway</1> untuk menghasilkan tautan yang dapat dibagikan.</0>",
   "publicPathGatewayDescription": "<0>Pilih mundur <1>Path Gateway</1> untuk menghasilkan tautan yang dapat dibagikan untuk CID yang melebihi batas DNS 63 karakter.</0>",
   "retrievalDiagnosticService": {

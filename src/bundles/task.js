@@ -20,11 +20,11 @@
  * @typedef {Object} InitState
  * @property {'Init'} status
  * @property {Symbol} id - Unique identifier of this task.
- * @property {Init} init - Initialization paramater provided on spawn.
+ * @property {Init} init - Initialization parameter provided on spawn.
  */
 
 /**
- * Reperesents task in it's completion phase.
+ * Represents task in it's completion phase.
  *
  * @template Failure = Error - Type of `result.error` if failed.
  * @template Success - Type of `result.value` if succeeded.
@@ -36,7 +36,7 @@
  */
 
 /**
- * Type reperesenting a state of the performed task. It is state machine
+ * Type representing a state of the performed task. It is state machine
  * representing task state that will initial be in `InitState` and on completion
  * transition to `ExitState`.
  *
@@ -51,7 +51,7 @@
  *
  * @template {string} Type - String literal used as `action.type`.
  * @template Failure - Type of the `result.error` for a failed task.
- * @template Success - Type of the `result.value` for the successfull task.
+ * @template Success - Type of the `result.value` for the successful task.
  * @template Init - Initialization parameter passed to perform.
  * @typedef {Object} Perform
  * @property {Type} type
@@ -60,7 +60,7 @@
 
 /**
  * Takes the action `type`, a `task` (in form of async function) and an optional
- * `init` parameters to produce a `doX` style action creator. On exectuion
+ * `init` parameters to produce a `doX` style action creator. On execution
  * `{ type, task }` actions will be dispatched, where `task` represents a state
  * (machine) of the executed task, which proceeds as follows:
  *
@@ -70,20 +70,20 @@
  *  optional parameter that was passed to `perform` (Which can be useful in
  *  certain reducers and middleware that need to keep track of state).
  *
- * - Once task is finishes, action with status `Exit` is dispatced just once:
+ * - Once task is finishes, action with status `Exit` is dispatched just once:
  *   `{ status: 'Exit', id: Symbol, duration: number, result: Result<Error, Success> }`
  *   with some new new fields:
  *     - `duration` - Is a time it took a task from `Init` to `Exit` in ms.
- *     - `result` - Is a result of the task. On succesful completion it is
+ *     - `result` - Is a result of the task. On successful completion it is
  *       `{ok:true, value:Success}` (value is return value of the async
  *       function). On failure it is `{ok:false, error:Error}` (`error` is an
- *       expception thrown, or a rejection reason of the promise).
+ *       exception thrown, or a rejection reason of the promise).
  *
  * @template {string} Type - Corresponds to `action.type` for all the actions
  * @template Success - Type of the `action.task.result.vaule` when task is
  * complete successfully. It is also a value of the promise returned by
  * running `store.doX` created by this decorator.
- * @template Init - Type of the initialization paramater.
+ * @template Init - Type of the initialization parameter.
  * @template State - Type of the `context.getState()` for this task.
  * @template {Object} StoreExt - Store extension.
  * @template {Object} ContextExt - Context extension
@@ -109,7 +109,7 @@ export const perform = (type, task, ...[init]) =>
  */
 
 /**
- * Type reperesenting a state of the spawned task. It is state machine that will
+ * Type representing a state of the spawned task. It is state machine that will
  * transition from InitState -> SendState -> ExitState. It is guaranteed that
  * spawned task will be in `InitState` and `ExitState` exactly once. It is also
  * guaranteed that task can be in `SendState` 0 or 1 or more times between
@@ -144,7 +144,7 @@ export const perform = (type, task, ...[init]) =>
  *
  * It takes the action `type`, a `task` (in form of async generator) and an
  * optional `init` parameters to produce a `doX` style action creator. On
- * exectuion `{ type, task }` actions will be dispatched, where `task`
+ * execution `{ type, task }` actions will be dispatched, where `task`
  * represents a state (machine) of the executed task, which proceeds as follows:
  *
  * - At the start of the execution, task will have an `Init` status, which is
@@ -154,19 +154,19 @@ export const perform = (type, task, ...[init]) =>
  *  certain reducers and middleware that need to keep track of state).
  *
  * - During execution task may produce messages by yielding them. On each
- *   message dispatche actions task will have a `Send` status:
+ *   message dispatch actions task will have a `Send` status:
  *  `{ status: 'Send', id: Symbol, message: Message }`. Task can produce >= 0
  *  such actions. (If your task produces 0 messages you want to use perform
  *   instead).
  *
- Once task is finishes, action with status `Exit` is dispatced just once:
+ Once task is finishes, action with status `Exit` is dispatched just once:
  *   `{ status: 'Exit', id: Symbol, duration: number, result: Result<Error, Success> }`
  *   with some new new fields:
  *     - `duration` - Is a time it took a task from `Init` to `Exit` in ms.
- *     - `result` - Is a result of the task. On succesful completion it is
+ *     - `result` - Is a result of the task. On successful completion it is
  *       `{ok:true, value:Success}` (value is return value of the async
  *       generator). On failure it is `{ok:false, error:Error}` (`error` is an
- *       expception thrown, or a rejection reason of the promise).
+ *       exception thrown, or a rejection reason of the promise).
  *
  * @template {string} Type - Corresponds to `action.type` for all the actions
  * that this task will dispatch.
@@ -176,7 +176,7 @@ export const perform = (type, task, ...[init]) =>
  * @template Success - Type of the `action.task.result.vaule` when task is
  * complete successfully. It is also a value of the promise returned by
  * running `store.doX` created by this decorator.
- * @template Init - Type of the initialization paramater.
+ * @template Init - Type of the initialization parameter.
  * @template State - Type of the `context.getState()` for this task.
  * @template {Object} StoreExt - Store extension.
  * @template {Object} ContextExt - Context extension
@@ -184,7 +184,7 @@ export const perform = (type, task, ...[init]) =>
  *
  * @param {Type} type - Type of the actions this will dispatch.
  * @param {(context:Context) => AsyncGenerator<Message, Success, void>} task - Task
- * @param {Init[]} rest - Optinal initialization parameter.
+ * @param {Init[]} rest - Optional initialization parameter.
  * @returns {(context:Context) => Promise<Success>}
  */export const spawn = (type, task, ...[init]) => async (context) => {
   // Generate unique id for this task
