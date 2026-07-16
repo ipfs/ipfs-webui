@@ -87,3 +87,17 @@ it('should notify about file errors', async () => {
   expect(store.selectNotifyI18nKey()).toEqual('filesEventFailed')
   store.dispatch({ type: 'FILES_WRITE_FINISHED' })
 })
+
+it('should notify about IPNS publish errors with the original message', async () => {
+  const store = composeBundlesRaw(
+    appTimeBundle,
+    ipfsBundle(),
+    notifyBundle
+  )()
+  expect(store.selectNotify().show).toEqual(false)
+  store.dispatch({ type: 'IPNS_PUBLISH_FAILED', msgArgs: { keyName: 'self', errorMsg: 'Error: Internal Server Error' } })
+  expect(store.selectNotify().show).toEqual(true)
+  expect(store.selectNotify().error).toEqual(true)
+  expect(store.selectNotify().msgArgs).toEqual({ keyName: 'self', errorMsg: 'Error: Internal Server Error' })
+  expect(store.selectNotifyI18nKey()).toEqual('ipnsPublishFailReason')
+})
