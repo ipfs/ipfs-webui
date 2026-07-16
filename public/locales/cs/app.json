@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": "Zadejte URL (https://ipfs.io)"
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Zadejte adresu URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "Stav připnutí",
     "publicKey": "Veřejný klíč",
     "publicGateway": "Veřejná brána",
+    "localGateway": "",
     "rateIn": "Hodnota uvnitř",
     "rateOut": "Hodnota ven",
     "repo": "Repozitář",

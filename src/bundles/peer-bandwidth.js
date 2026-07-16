@@ -20,7 +20,7 @@ const bundle = function (opts) {
   opts.tickResolution = opts.tickResolution || 1000
   // The minimum time between updates for each peer
   opts.peerUpdateInterval = opts.peerUpdateInterval || 5000
-  // Inactive peers are de-prioritised
+  // Inactive peers are de-prioritized
   opts.inactivePeerUpdateInterval = opts.inactivePeerUpdateInterval || 30000
 
   return {

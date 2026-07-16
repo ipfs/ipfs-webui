@@ -1,27 +1,36 @@
+import { createSelector } from 'redux-bundler'
 import { readSetting, writeSetting } from './local-storage.js'
+import { SHARE_LINK_TYPE, DEFAULT_SHARE_LINK_TYPE, resolveEffectiveShareLinkType } from '../lib/share-link.js'
 
-// TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
+// Public gateways prefilled on a fresh node; DEFAULT_SHARE_LINK_TYPE in
+// lib/share-link.js points share links at the subdomain one. Clearing a
+// gateway in Settings opts out of it entirely (share links then fall back to
+// native ipfs:// URIs). Set these to '' to ship with no predefined public
+// gateways at all.
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
 export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
 export const DEFAULT_IPFS_CHECK_URL = 'https://check.ipfs.network'
-// Test URLs that bypass validation for e2e tests
+// Test gateway URLs used by e2e tests
 export const TEST_PATH_GATEWAY = 'https://e2e-test-path-gateway.test'
 export const TEST_SUBDOMAIN_GATEWAY = 'https://e2e-test-subdomain-gateway.test'
-const IMG_HASH_1PX = 'bafkreib6wedzfupqy7qh44sie42ub4mvfwnfukmw6s2564flajwnt4cvc4' // 1x1.png
-const IMG_ARRAY = [
-  { id: 'IMG_HASH_1PX', name: '1x1.png', hash: IMG_HASH_1PX },
-  { id: 'IMG_HASH_1PXID', name: '1x1.png', hash: 'bafkqax4jkbheodikdifaaaaabveuqrcsaaaaaaiaaaaacaidaaaaajo3k3faaaaaanieyvcfaaaabj32hxnaaaaaaf2fetstabaonwdgaaaaacsjiravicgxmnqaaaaaaiaadyrbxqzqaaaaabeuktsevzbgbaq' },
-  { id: 'IMG_HASH_FAVICON', name: 'favicon.ico', hash: 'bafkreihc7efnl2prri6j6krcopelxms3xsh7undpsjqbfsasm7ikiyha4i' }
-]
 
+// A stored '' means the user cleared the gateway to opt out of public gateway
+// links; only a setting that was never written gets the default.
 const readPublicGatewaySetting = () => {
   const setting = readSetting('ipfsPublicGateway')
-  return setting || DEFAULT_PATH_GATEWAY
+  return typeof setting === 'string' ? setting : DEFAULT_PATH_GATEWAY
+}
+
+const readLocalGatewaySetting = () => {
+  const setting = readSetting('ipfsLocalGateway')
+  // Return empty string if not set, so we can distinguish between
+  // "not configured" and "configured to empty"
+  return setting || ''
 }
 
 const readPublicSubdomainGatewaySetting = () => {
   const setting = readSetting('ipfsPublicSubdomainGateway')
-  return setting || DEFAULT_SUBDOMAIN_GATEWAY
+  return typeof setting === 'string' ? setting : DEFAULT_SUBDOMAIN_GATEWAY
 }
 
 const readIpfsCheckUrlSetting = () => {
@@ -29,11 +38,24 @@ const readIpfsCheckUrlSetting = () => {
   return setting || DEFAULT_IPFS_CHECK_URL
 }
 
+const readShareLinkTypeSetting = () => {
+  const setting = readSetting('ipfsShareLinkType')
+  return typeof setting === 'string' && Object.values(SHARE_LINK_TYPE).includes(setting)
+    ? setting
+    : DEFAULT_SHARE_LINK_TYPE
+}
+
 const init = () => ({
   availableGateway: null,
   publicGateway: readPublicGatewaySetting(),
   publicSubdomainGateway: readPublicSubdomainGatewaySetting(),
-  ipfsCheckUrl: readIpfsCheckUrlSetting()
+  ipfsCheckUrl: readIpfsCheckUrlSetting(),
+  localGateway: readLocalGatewaySetting(),
+  shareLinkType: readShareLinkTypeSetting(),
+  // Not persisted: set when the local gateway changes so the Explore page
+  // reloads its Helia node (which reads kuboGateway only at startup) the next
+  // time it is opened. A page reload resets this back to false.
+  explorerNeedsReload: false
 })
 
 /**
@@ -52,134 +74,28 @@ export const checkValidHttpUrl = (value) => {
 }
 
 /**
- * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
- * @param {string} gatewayUrl - The gateway URL to check
- * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
+ * Default `kuboGateway` config consumed by Helia/verified-fetch
+ * (ipld-explorer-components) on the Explore page when no explicit Local Gateway
+ * URL is set.
  */
-export const checkViaImgSrc = (gatewayUrl) => {
-  // Skip validation for test gateways
-  if (gatewayUrl === TEST_PATH_GATEWAY) {
-    return Promise.resolve()
-  }
+export const DEFAULT_KUBO_GATEWAY = { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } }
 
+/**
+ * Convert a Local Gateway URL into the `kuboGateway` config shape consumed by
+ * Helia/verified-fetch on the Explore page, so the explorer fetches blocks from
+ * the same gateway the rest of the WebUI uses.
+ * @param {string} gatewayUrl
+ * @returns {{host: string, port: string, protocol: string, trustlessBlockBrokerConfig: object}}
+ */
+export const localGatewayToKuboGateway = (gatewayUrl) => {
   const url = new URL(gatewayUrl)
-
-  /**
-   * we check if gateway is up by loading 1x1 px image:
-   * this is more robust check than loading js, as it won't be blocked
-   * by privacy protections present in modern browsers or in extensions such as Privacy Badger
-   */
-  // @ts-expect-error - Promise.any requires ES2021 but we're on ES2020
-  return Promise.any(IMG_ARRAY.map(element => {
-    const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
-    return checkImgSrcPromise(imgUrl)
-  }))
-}
-
-/**
- * @param {URL} imgUrl - The image URL to check
- * @returns {Promise<void>}
- */
-const checkImgSrcPromise = (imgUrl) => {
-  const imgCheckTimeout = 15000
-
-  return new Promise((resolve, reject) => {
-    const timeout = () => {
-      if (!timer) return false
-      clearTimeout(timer)
-      timer = null
-      return true
-    }
-
-    /** @type {NodeJS.Timeout | null} */
-    let timer = setTimeout(() => { if (timeout()) reject(new Error(`Image load timed out after ${imgCheckTimeout / 1000} seconds for URL: ${imgUrl}`)) }, imgCheckTimeout)
-    const img = new Image()
-
-    img.onerror = () => {
-      timeout()
-      reject(new Error(`Failed to load image from URL: ${imgUrl}`))
-    }
-
-    img.onload = () => {
-      // subdomain works
-      timeout()
-      resolve()
-    }
-
-    img.src = imgUrl.toString()
-  })
-}
-
-/**
- * Checks if a given URL redirects to a subdomain that starts with a specific hash.
- *
- * @param {URL} url - The URL to check for redirection.
- * @throws {Error} Throws an error if the URL does not redirect to the expected subdomain.
- * @returns {Promise<void>} A promise that resolves if the URL redirects correctly, otherwise it throws an error.
- */
-async function expectSubdomainRedirect (url) {
-  // Detecting redirects on remote Origins is extra tricky,
-  // but we seem to be able to access xhr.responseURL which is enough to see
-  // if paths are redirected to subdomains.
-
-  const { url: responseUrl } = await fetch(url.toString())
-  const { hostname } = new URL(responseUrl)
-
-  if (!hostname.startsWith(IMG_HASH_1PX)) {
-    const msg = `Expected ${url.toString()} to redirect to subdomain '${IMG_HASH_1PX}' but instead received '${responseUrl}'`
-    console.error(msg)
-    throw new Error(msg)
+  const protocol = url.protocol.replace(':', '')
+  return {
+    host: url.hostname,
+    port: url.port || (url.protocol === 'https:' ? '443' : '80'),
+    protocol,
+    trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
   }
-}
-
-/**
- * Checks if an image can be loaded from a given URL within a specified timeout.
- *
- * @param {URL} imgUrl - The URL of the image to be loaded.
- * @returns {Promise<void>} A promise that resolves if the image loads successfully within the timeout, otherwise it rejects with an error.
- */
-async function checkViaImgUrl (imgUrl) {
-  try {
-    await checkImgSrcPromise(imgUrl)
-  } catch (error) {
-    throw new Error(`Error or timeout when attempting to load img from '${imgUrl.toString()}'`)
-  }
-}
-
-/**
- * Checks if a given gateway URL is functioning correctly by verifying image loading and redirection.
- *
- * @param {string} gatewayUrl - The URL of the gateway to be checked.
- * @returns {Promise<boolean>} A promise that resolves to true if the gateway is functioning correctly, otherwise false.
- */
-export async function checkSubdomainGateway (gatewayUrl) {
-  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY || gatewayUrl === TEST_SUBDOMAIN_GATEWAY) {
-    // avoid sending probe requests to the default gateway every time Settings page is opened
-    // also skip validation for test gateways
-    return true
-  }
-  /** @type {URL} */
-  let imgSubdomainUrl
-  /** @type {URL} */
-  let imgRedirectedPathUrl
-  try {
-    const gwUrl = new URL(gatewayUrl)
-    imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.ipfs.${gwUrl.hostname}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
-    imgRedirectedPathUrl = new URL(`${gwUrl.protocol}//${gwUrl.hostname}/ipfs/${IMG_HASH_1PX}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
-  } catch (err) {
-    console.error('Invalid URL:', err)
-    return false
-  }
-  return await checkViaImgUrl(imgSubdomainUrl)
-    .then(async () => expectSubdomainRedirect(imgRedirectedPathUrl))
-    .then(() => {
-      console.log(`Gateway at '${gatewayUrl}' is functioning correctly (verified image loading and redirection)`)
-      return true
-    })
-    .catch((err) => {
-      console.error(err)
-      return false
-    })
 }
 
 const bundle = {
@@ -207,6 +123,18 @@ const bundle = {
       return { ...state, ipfsCheckUrl: action.payload }
     }
 
+    if (action.type === 'SET_LOCAL_GATEWAY') {
+      return { ...state, localGateway: action.payload }
+    }
+
+    if (action.type === 'SET_SHARE_LINK_TYPE') {
+      return { ...state, shareLinkType: action.payload }
+    }
+
+    if (action.type === 'SET_EXPLORER_NEEDS_RELOAD') {
+      return { ...state, explorerNeedsReload: action.payload }
+    }
+
     return state
   },
 
@@ -218,20 +146,28 @@ const bundle = {
 
   /**
    * @param {string} address
-   * @returns {function({dispatch: Function}): Promise<void>}
+   * @returns {function({dispatch: Function, store: any}): Promise<void>}
    */
-  doUpdatePublicGateway: (address) => async ({ dispatch }) => {
+  doUpdatePublicGateway: (address) => async ({ dispatch, store }) => {
     await writeSetting('ipfsPublicGateway', address)
     dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
+    // Clearing the gateway that the Share Link type points at reverts the choice
+    // to native, so the selected option matches what is actually configured.
+    if (!address && store.selectShareLinkType() === SHARE_LINK_TYPE.PUBLIC_PATH) {
+      await store.doUpdateShareLinkType(SHARE_LINK_TYPE.NATIVE)
+    }
   },
 
   /**
    * @param {string} address
-   * @returns {function({dispatch: Function}): Promise<void>}
+   * @returns {function({dispatch: Function, store: any}): Promise<void>}
    */
-  doUpdatePublicSubdomainGateway: (address) => async ({ dispatch }) => {
+  doUpdatePublicSubdomainGateway: (address) => async ({ dispatch, store }) => {
     await writeSetting('ipfsPublicSubdomainGateway', address)
     dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
+    if (!address && store.selectShareLinkType() === SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN) {
+      await store.doUpdateShareLinkType(SHARE_LINK_TYPE.NATIVE)
+    }
   },
 
   /**
@@ -241,6 +177,43 @@ const bundle = {
   doUpdateIpfsCheckUrl: (url) => async ({ dispatch }) => {
     await writeSetting('ipfsCheckUrl', url)
     dispatch({ type: 'SET_IPFS_CHECK_URL', payload: url })
+  },
+
+  /**
+   * @param {string} address
+   * @returns {function({dispatch: Function, store: any}): Promise<void>}
+   */
+  doUpdateLocalGateway: (address) => async ({ dispatch, store }) => {
+    // Normalize: remove trailing slashes
+    const normalizedAddress = address.replace(/\/+$/, '')
+    // Re-saving the same value must not rewrite settings or schedule a
+    // spurious Explore reload.
+    if (normalizedAddress === store.selectLocalGateway()) return
+    await writeSetting('ipfsLocalGateway', normalizedAddress)
+    dispatch({ type: 'SET_LOCAL_GATEWAY', payload: normalizedAddress })
+
+    // Refresh availableGateway now (the override when set, the Kubo config
+    // gateway when cleared) so previews, thumbnails, IPNS links and the Explore
+    // link switch immediately, instead of waiting for the config bundle to go
+    // stale.
+    store.doSetAvailableGateway(store.selectGatewayUrl())
+
+    // Keep kuboGateway (used by Helia/Explore) in sync with the override.
+    if (normalizedAddress) {
+      try {
+        await writeSetting('kuboGateway', localGatewayToKuboGateway(normalizedAddress))
+      } catch (e) {
+        console.error('Error syncing ipfsLocalGateway to kuboGateway:', e)
+      }
+    } else {
+      // Override cleared: restore defaults so Explore stops using the old host.
+      await writeSetting('kuboGateway', DEFAULT_KUBO_GATEWAY)
+    }
+
+    // The Explore page's Helia node reads kuboGateway only when it boots, so it
+    // cannot pick up the change in place. Flag it to reload the next time the
+    // user opens Explore; that reload clears this (non-persisted) flag.
+    dispatch({ type: 'SET_EXPLORER_NEEDS_RELOAD', payload: true })
   },
 
   /**
@@ -265,7 +238,60 @@ const bundle = {
    * @param {any} state
    * @returns {string}
    */
-  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl
+  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl,
+
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
+  selectLocalGateway: (state) => state?.gateway?.localGateway,
+
+  /**
+   * Whether the Explore page should reload to re-init its Helia node after a
+   * local gateway change. See ExploreContainer.
+   * @param {any} state
+   * @returns {boolean}
+   */
+  selectExplorerNeedsReload: (state) => state?.gateway?.explorerNeedsReload,
+
+  /**
+   * @param {string} type - a SHARE_LINK_TYPE value
+   * @returns {function({dispatch: Function, store: any}): Promise<void>}
+   */
+  doUpdateShareLinkType: (type) => async ({ dispatch, store }) => {
+    await writeSetting('ipfsShareLinkType', type)
+    dispatch({ type: 'SET_SHARE_LINK_TYPE', payload: type })
+    // Choosing a public type also persists the gateway it points at: a
+    // prefilled default is otherwise never written (the gateway form's Submit
+    // is disabled while the value is unchanged), and an explicit opt-in must
+    // keep its gateway even if the DEFAULT_*_GATEWAY constants change later.
+    if (type === SHARE_LINK_TYPE.PUBLIC_PATH) {
+      await writeSetting('ipfsPublicGateway', store.selectPublicGateway())
+    } else if (type === SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN) {
+      await writeSetting('ipfsPublicSubdomainGateway', store.selectPublicSubdomainGateway())
+    }
+  },
+
+  /**
+   * The link type the user selected for Share Link and Publish to IPNS.
+   * @param {any} state
+   * @returns {string}
+   */
+  selectShareLinkType: (state) => state?.gateway?.shareLinkType,
+
+  // The link type actually used: a type whose gateway is not configured (a
+  // public type with its gateway cleared, or a local type with no local
+  // gateway) falls back to native, so the two consumers (Share Link, Publish
+  // to IPNS) stay consistent with the disabled-option logic in Settings and
+  // buildShareLink always produces a link for this type.
+  selectEffectiveShareLinkType: createSelector(
+    'selectShareLinkType',
+    'selectPublicGateway',
+    'selectPublicSubdomainGateway',
+    'selectLocalGatewayUrl',
+    (shareLinkType, publicGateway, publicSubdomainGateway, localGatewayUrl) =>
+      resolveEffectiveShareLinkType(shareLinkType, { publicGateway, publicSubdomainGateway, localGatewayUrl })
+  )
 }
 
 export default bundle

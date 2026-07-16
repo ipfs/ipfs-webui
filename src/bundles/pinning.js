@@ -1,10 +1,12 @@
 // @ts-check
+import { createSelector } from 'redux-bundler'
 import { pinningServiceTemplates } from '../constants/pinning.js'
 import memoize from 'p-memoize'
 import { CID } from 'multiformats/cid'
 import all from 'it-all'
 
 import { readSetting, writeSetting } from './local-storage.js'
+import { toLoopbackIpUrl } from '../lib/share-link.js'
 import { dispatchAsyncProvide } from './files/utils.js'
 
 // This bundle leverages createCacheBundle and persistActions for
@@ -38,11 +40,11 @@ const getRerenderAwareArray = (oldArray, newArray) => {
   return diff.length > 0 ? newArray : oldArray
 }
 
-const parseService = async (service, remoteServiceTemplates, ipfs) => {
-  const template = remoteServiceTemplates.find(t => service.endpoint.toString() === t.apiEndpoint.toString())
-  const icon = template?.icon
-  const visitServiceUrl = template?.visitServiceUrl
-  const parsedService = { ...service, name: service.service, icon, visitServiceUrl }
+// Template-derived fields (icon, visitServiceUrl) are joined in at read time
+// by selectPinningServices, so they follow gateway changes instead of freezing
+// whatever gateway was configured when the services were fetched.
+const parseService = async (service, ipfs) => {
+  const parsedService = { ...service, name: service.service }
 
   if (service?.stat?.status === 'invalid') {
     return { ...parsedService, numberOfPins: -1, online: false }
@@ -298,9 +300,8 @@ const pinningBundle = {
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: isPinRemotePresent })
     if (!isPinRemotePresent) return null
 
-    const remoteServiceTemplates = store.selectRemoteServiceTemplates()
     const offlineListOfServices = await ipfs.pin.remote.service.ls()
-    const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
+    const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
   },
 
@@ -311,16 +312,39 @@ const pinningBundle = {
     const isPinRemotePresent = (await ipfs.commands()).Subcommands.find(c => c.Name === 'pin').Subcommands.some(c => c.Name === 'remote')
     if (!isPinRemotePresent) return null
 
-    const remoteServiceTemplates = store.selectRemoteServiceTemplates()
     const servicesWithStats = await ipfs.pin.remote.service.ls({ stat: true })
-    const remoteServices = await Promise.all(servicesWithStats.map(service => parseService(service, remoteServiceTemplates, ipfs)))
+    const remoteServices = await Promise.all(servicesWithStats.map(service => parseService(service, ipfs)))
 
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
   },
 
-  selectPinningServices: (state) => state.pinning.pinningServices || [],
+  selectPinningServicesRaw: (state) => state.pinning.pinningServices || [],
 
-  selectRemoteServiceTemplates: () => pinningServiceTemplates,
+  // Fetched services joined with their template's icon and service link at
+  // read time, so they follow the current gateway instead of freezing the one
+  // configured when the services were fetched.
+  selectPinningServices: createSelector(
+    'selectPinningServicesRaw',
+    'selectRemoteServiceTemplates',
+    (services, templates) => services.map(service => {
+      const template = templates.find(t => service.endpoint?.toString() === t.apiEndpoint.toString())
+      if (!template) return service
+      return { ...service, icon: template.icon, visitServiceUrl: template.visitServiceUrl }
+    })
+  ),
+
+  // Resolve each provider icon against the available gateway (the same one file
+  // previews use), so icons load from the local node instead of a hardcoded
+  // public gateway. toLoopbackIpUrl keeps a localhost gateway loading over
+  // 127.0.0.1 to avoid the subdomain-redirect breakage (issue 2246). With no
+  // gateway configured there is no icon, rather than a broken relative URL
+  // resolved against the WebUI origin.
+  selectRemoteServiceTemplates: createSelector('selectAvailableGatewayUrl', (availableGatewayUrl) =>
+    pinningServiceTemplates.map((template) => ({
+      ...template,
+      icon: availableGatewayUrl ? toLoopbackIpUrl(`${availableGatewayUrl}/${template.iconPath}`) : ''
+    }))
+  ),
 
   selectArePinningServicesSupported: (state) => state.pinning.arePinningServicesSupported,
 

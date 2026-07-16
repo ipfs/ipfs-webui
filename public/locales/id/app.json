@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": "Masukkan URL (https://ipfs.io)"
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Masukkan URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "Status Semat",
     "publicKey": "Kunci publik",
     "publicGateway": "Gerbang Publik",
+    "localGateway": "",
     "rateIn": "Nilai dalam",
     "rateOut": "Nilai keluar",
     "repo": "Repo",

@@ -15,7 +15,7 @@
   "language": "Langue",
   "analytics": "Analyses",
   "cliTutorMode": "Mode tutoriel pour l'invite de commande (CLI)",
-  "config": "",
+  "config": "Configuration de Kubo",
   "languageModal": {
     "title": "Changer la langue",
     "description": "Choisir votre langue préférée",
@@ -23,11 +23,12 @@
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
   "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API RPC pour Kubo personnalisée, y compris un port autre que le défaut 5001, entrez-la ici.</0>",
+  "localGatewayDescription": "<0>Si vous accédez à la WebUI via un reverse proxy, Docker, ou un hôte différent, entrez l'URL de la passerelle pour que votre navigateur puisse l'atteindre. Laissez vide pour utiliser la première <1>adresse de passerelle</1> de votre configuration de Kubo.</0>",
   "publicSubdomainGatewayDescription": "<0>Sélectionnez votre <1>Passerelle de Sous-domaines</1> pour créer des liens partageables.</0>",
   "publicPathGatewayDescription": "<0>Sélectionnez une <1>Passerelle de Chemins</1> de secours pour créer des liens partageables pour les CIDs excédants la limite de 63 caractères des DNS.</0>",
   "retrievalDiagnosticService": {
-    "title": "",
-    "description": ""
+    "title": "Service de diagnostic de disponibilité",
+    "description": "Configure l'URL du service <0>ipfs-check</0> utilisé pour le <1>diagnostic de disponibilité</1>. Ce service vérifie que le contenu puisse être accessible avec succès depuis votre nœud et d'autres nœuds hébergeant un CID spécifique, vous aidant à régler des problèmes de partage."
   },
   "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
   "cliModal": {
@@ -85,14 +86,14 @@
     "false": "Éteint"
   },
   "fetchingSettings": "Récupération des paramètres...",
-  "ipfsDaemonOffline": "",
-  "settingsUnavailable": "",
+  "ipfsDaemonOffline": "Le démon Kubo est hors ligne. Essayer de l'éteindre puis de le rallumer.",
+  "settingsUnavailable": "Paramètres indisponibles. Vérifiez que le démon Kubo est allumé.",
   "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>Réinitialiser</1> pour mettre à jour l'éditeur de contenu.",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
   "checkConsole": "Vérifier la console du navigateur pour plus d'informations.",
   "changesSaved": "Vos modifications ont été enregistrées.",
-  "settingsWillBeUsedNextTime": "",
-  "ipfsConfigDescription": "",
+  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront appliqués la prochaine fois que vous redémarrerez le démon Kubo.",
+  "ipfsConfigDescription": "Le fichier de configuration de Kubo est un document JSON. Il est lu une seule fois quand le démon Kubo est lancé. Enregistrez vos changements, puis redémarrez le démon Kubo pour les appliquer.",
   "ipfsConfigHelp": "Vérifier la documentation pour plus d'informations.",
   "AnalyticsToggle": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
@@ -133,7 +134,7 @@
   "tour": {
     "step1": {
       "title": "Page des paramètres",
-      "paragraph1": "",
+      "paragraph1": "Vous pouvez changer les paramètres de votre Interface Web ou de votre nœud Kubo ici.",
       "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
@@ -158,8 +159,8 @@
       "paragraph1": "Activer le Mode tuteur pour CLI pour voir les raccourcis vers la version \"ligne de commande\" des commandes courantes d'IPFS. Pratique si vous voulez apprendre à utiliser IPFS depuis un terminal, ou si vous voulez juste avoir un pense-bête."
     },
     "step7": {
-      "title": "",
-      "paragraph1": "",
+      "title": "Configuration de Kubo",
+      "paragraph1": "Vous pouvez changer la configuration de votre nœud Kubo directement depuis l'Interface Web !",
       "paragraph2": "N'oubliez pas de redémarrer le daemon pour que les changements soient pris en compte."
     }
   },

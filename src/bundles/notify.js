@@ -100,6 +100,16 @@ const notify = {
       }
     }
 
+    if (action.type === 'IPNS_PUBLISH_FAILED') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        msgArgs: action.msgArgs,
+        eventId: action.type
+      }
+    }
+
     if (action.type === 'IPFS_CONNECT_FAILED') {
       return {
         ...state,
@@ -158,6 +168,9 @@ const notify = {
       }
       if (eventId === 'IPFS_UNPIN_SUCCEED') {
         return 'ipfsUnpinSucceedReason'
+      }
+      if (eventId === 'IPNS_PUBLISH_FAILED') {
+        return 'ipnsPublishFailReason'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {

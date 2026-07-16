@@ -33,7 +33,7 @@ import { debouncedProvide } from '../../lib/files.js'
  * 4. `{ status: 'Failed', id: Symbol, error: Error }` - State when task is
  *    failed do to error.
  *
- * template {string} Name - Name of the task which, correponds to `.type` of
+ * template {string} Name - Name of the task which, corresponds to `.type` of
  * dispatched actions.
  * template State - Type of yielded value by a the generator, which will
  * correspond to `.job.state` of dispatched actions while task is pending.
@@ -64,7 +64,7 @@ import { debouncedProvide } from '../../lib/files.js'
  * @template Success - Type of the `action.task.result.vaule` when task is
  * complete successfully. It is also a value of the promise returned by
  * running `store.doX` created by this decorator.
- * @template Init - Type of the initialization paramater.
+ * @template Init - Type of the initialization parameter.
  * @template State - Type of the `context.getState()` for this task.
  * @template {BundlerContext<State, Spawn<Type, Message, Error, Success, Init>, Ext, Extra>} Context
  *
@@ -112,10 +112,10 @@ export const spawn = (type, task, ...[init]) => async (context) => {
  * `context.getIpfs()` returns an `IPFSService` passing it into the task as a
  * first argument. Otherwise it fails without dispatching any actions.
  *
- * @template {string} Type - Type of the task which, correponds to `.type` of
+ * @template {string} Type - Type of the task which, corresponds to `.type` of
  * dispatched actions.
  * @template Success - Return type of the task, which will correspond to
- * `.job.result.value` of dispatched action on succefully completed task.
+ * `.job.result.value` of dispatched action on successfully completed task.
  * @template Init - Initial data
  * @template State - Type of the `context.getState()` for this task.
  * @template {BundlerContext<State, Perform<Type, Error, Success, Init>, Ext, Extra>} Context

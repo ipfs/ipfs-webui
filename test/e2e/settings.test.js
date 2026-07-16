@@ -22,24 +22,27 @@ test.describe('Settings screen', () => {
   })
 
   test('should show config of IPFS node', async ({ page }) => {
-    await expect(page.getByText('Addresses')).toBeVisible()
-    await expect(page.getByText('Bootstrap')).toBeVisible()
-    await expect(page.getByText('PeerID')).toBeVisible()
+    // Scope to the config editor and match whole JSON keys: these words appear
+    // as prose elsewhere on the page, and as substrings of other keys (e.g.
+    // "LoopbackAddressesOnLanDHT"), so an unscoped substring match is ambiguous.
+    const config = page.locator('.ace_editor')
+    await expect(config.getByText('"Addresses"', { exact: true })).toBeVisible()
+    await expect(config.getByText('"Bootstrap"', { exact: true })).toBeVisible()
+    await expect(config.getByText('"PeerID"', { exact: true })).toBeVisible()
     // check PeerID in config to confirm it comes from expected instance
     const id = process.env.IPFS_RPC_ID
-    await expect(page.getByText(id)).toBeVisible()
+    await expect(config.getByText(id)).toBeVisible()
   })
 
-  test('Submit/Reset Public Subdomain Gateway', async ({ page }) => {
+  test('Submit/Clear Public Subdomain Gateway', async ({ page }) => {
     const publicSubdomainGatewayElement = settings.publicSubdomainGateway(page)
     const publicSubdomainGatewaySubmitButton = page.locator('#public-subdomain-gateway-submit-button')
-    const publicSubdomainGatewayResetButton = page.locator('#public-subdomain-gateway-reset-button')
+    const publicSubdomainGatewayClearButton = page.locator('#public-subdomain-gateway-clear-button')
 
     await expect(publicSubdomainGatewayElement).toBeVisible()
 
-    // Store initial value (should be DEFAULT_SUBDOMAIN_GATEWAY)
-    const initialValue = await publicSubdomainGatewayElement.inputValue()
-    expect(initialValue).toBe(DEFAULT_SUBDOMAIN_GATEWAY)
+    // Prefilled with the default subdomain gateway; Clear opts out of it.
+    await expect(publicSubdomainGatewayElement).toHaveValue(DEFAULT_SUBDOMAIN_GATEWAY)
 
     // First, set an invalid value to verify red border appears
     await publicSubdomainGatewayElement.click({ clickCount: 3 })
@@ -67,23 +70,20 @@ test.describe('Settings screen', () => {
     // Wait for value to persist
     await expect(publicSubdomainGatewayElement).toHaveValue(TEST_SUBDOMAIN_GATEWAY, { timeout: 5000 })
 
-    // Test reset button
-    await publicSubdomainGatewayResetButton.click()
-
-    // Verify reset to default
-    await expect(publicSubdomainGatewayElement).toHaveValue(DEFAULT_SUBDOMAIN_GATEWAY)
+    // Clear empties the field
+    await publicSubdomainGatewayClearButton.click()
+    await expect(publicSubdomainGatewayElement).toHaveValue('')
   })
 
-  test('Submit/Reset Public Path Gateway', async ({ page }) => {
+  test('Submit/Clear Public Path Gateway', async ({ page }) => {
     const publicGatewayElement = settings.publicPathGateway(page)
     const publicGatewaySubmitButton = page.locator('#public-path-gateway-submit-button')
-    const publicGatewayResetButton = page.locator('#public-path-gateway-reset-button')
+    const publicGatewayClearButton = page.locator('#public-path-gateway-clear-button')
 
     await expect(publicGatewayElement).toBeVisible()
 
-    // Store initial value (should be DEFAULT_PATH_GATEWAY)
-    const initialValue = await publicGatewayElement.inputValue()
-    expect(initialValue).toBe(DEFAULT_PATH_GATEWAY)
+    // Prefilled with the default path gateway; Clear opts out of it.
+    await expect(publicGatewayElement).toHaveValue(DEFAULT_PATH_GATEWAY)
 
     // First, set an invalid value to verify red border appears
     await publicGatewayElement.click({ clickCount: 3 })
@@ -111,11 +111,45 @@ test.describe('Settings screen', () => {
     // Wait for value to persist
     await expect(publicGatewayElement).toHaveValue(TEST_PATH_GATEWAY, { timeout: 5000 })
 
-    // Test reset button
-    await publicGatewayResetButton.click()
+    // Clear empties the field
+    await publicGatewayClearButton.click()
+    await expect(publicGatewayElement).toHaveValue('')
+  })
 
-    // Verify reset to default
-    await expect(publicGatewayElement).toHaveValue(DEFAULT_PATH_GATEWAY)
+  test('Submit Local Gateway and confirm it is applied', async ({ page }) => {
+    // A distinctive hostname we can spot on the Status page to confirm the
+    // override is in use. It resolves to 127.0.0.1, so it still reaches the e2e
+    // kubo gateway for previews.
+    const localGatewayUrl = `http://custom-gw-test.localhost:${process.env.IPFS_GATEWAY_PORT}`
+    const input = page.locator('#local-gateway')
+    const submitButton = page.locator('#local-gateway-submit-button')
+
+    await expect(input).toBeVisible()
+
+    // empty by default (falls back to the gateway from Kubo config)
+    await expect(input).toHaveValue('')
+
+    await input.fill(localGatewayUrl)
+
+    // valid URL format shows the green outline and enables submit
+    await expect(input).toHaveClass(/focus-outline-green/, { timeout: 5000 })
+    await expect(submitButton).toBeEnabled()
+
+    // submit saves the override (URL format is validated, no reachability probe)
+    await submitButton.click()
+
+    // saved: no pending changes, so submit goes back to disabled, value persists
+    await expect(submitButton).toBeDisabled({ timeout: 10000 })
+    await expect(input).toHaveValue(localGatewayUrl)
+
+    // confirm the override is applied where it matters: the Status page Advanced
+    // panel renders selectGatewayUrl, which now resolves to the override
+    await page.goto('/#/')
+    const gatewayValue = page.getByText(localGatewayUrl)
+    if (!(await gatewayValue.isVisible())) {
+      await page.getByText('Advanced').click()
+    }
+    await expect(gatewayValue).toBeVisible()
   })
 
   test('Language selector', async ({ page }) => {

@@ -9,13 +9,13 @@
     "close": "Fermer",
     "copy": "Copier",
     "create": "Créer",
-    "default": "",
+    "default": "Défaut",
     "remove": "Supprimer",
     "download": "Télécharger",
     "edit": "Modifier",
     "import": "Importer",
     "inspect": "Inspecter",
-    "inspectResolving": "",
+    "inspectResolving": "Résolution...",
     "more": "Plus",
     "rename": "Renommer",
     "reset": "Réinitialiser",
@@ -28,7 +28,7 @@
     "publish": "Publier",
     "downloadCar": "Exporter CAR",
     "done": "Terminé",
-    "checkRetrieval": ""
+    "checkRetrieval": "Vérifier la disponibilité"
   },
   "cliModal": {
     "description": "Collez la commande suivante dans votre terminal pour effectuer cette tache via l'invite de commande. Souvenez vous de remplacer les exemples par votre propres paramètres."
@@ -48,12 +48,15 @@
   "publicGatewayForm": {
     "placeholder": "Entrez une URL (https://ipfs.io)"
   },
+  "localGatewayForm": {
+    "placeholder": "Entrez une URL (http://localhost:8080)"
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Entrez une URL (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "",
-    "placeholder": ""
+    "label": "URL du service de vérification de la disponibilité",
+    "placeholder": "Entrez une URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Adresse",
@@ -87,6 +90,7 @@
     "pinStatus": "Statut des épingles",
     "publicKey": "Clé publique",
     "publicGateway": "Passerelle publique",
+    "localGateway": "Passerelle locale",
     "rateIn": "Ratio entrant",
     "rateOut": "Ratio sortant",
     "repo": "Répertoire",

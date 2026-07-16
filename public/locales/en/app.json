@@ -46,10 +46,13 @@
     "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": "Enter an HTTP URL (https://path-gw.example.com)"
+  },
+  "localGatewayForm": {
+    "placeholder": "Enter an HTTP URL (http://localhost:8080)"
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "Enter an HTTP URL (https://subdomain-gw.example.net)"
   },
   "ipfsCheckForm": {
     "label": "Retrieval Check Service URL",
@@ -87,6 +90,8 @@
     "pinStatus": "Pin Status",
     "publicKey": "Public key",
     "publicGateway": "Public Gateway",
+    "publicSubdomainGateway": "Public Subdomain Gateway",
+    "localGateway": "Local HTTP Gateway",
     "rateIn": "Rate in",
     "rateOut": "Rate out",
     "repo": "Repo",
