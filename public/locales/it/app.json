@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": ""
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Inserisci un URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "Stato Pin",
     "publicKey": "Chiave pubblica",
     "publicGateway": "Gateway pubblico",
+    "localGateway": "",
     "rateIn": "Tasso d'entrata",
     "rateOut": "Tasso d'uscita",
     "repo": "Repo",

@@ -23,6 +23,7 @@
     "translationProjectLink": "Присоединитесь к проекту перевода IPFS"
   },
   "apiDescription": "<0>Если ваш узел настроен с <1>пользовательским адресом Kubo RPC API</1>, включая порт, отличный от стандартного 5001, введите его здесь.</0>",
+  "localGatewayDescription": "",
   "publicSubdomainGatewayDescription": "",
   "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {

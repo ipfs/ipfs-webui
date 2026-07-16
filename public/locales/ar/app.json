@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": ""
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "أدخل عنوان  (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "حالة المشبك",
     "publicKey": "المفتاح العام",
     "publicGateway": "بوابة عامة",
+    "localGateway": "",
     "rateIn": "التقييم",
     "rateOut": "خارج التقييم",
     "repo": "مخزن",

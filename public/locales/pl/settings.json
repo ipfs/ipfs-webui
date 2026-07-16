@@ -23,6 +23,7 @@
     "translationProjectLink": "Dołącz do projektu tłumaczeń IPFS"
   },
   "apiDescription": "<0>Jeśli Twój węzeł jest skonfigurowany z <1>niestandardowym adresem Kubo RPC API</1>, w tym portem innym niż domyślny 5001, wprowadź go tutaj.</0>",
+  "localGatewayDescription": "",
   "publicSubdomainGatewayDescription": "<0>Wybierz domyślną <1>bramkę subdomenową</1> do generowania linków do udostępniania.</0>",
   "publicPathGatewayDescription": "<0>Wybierz zapasową <1>bramkę ścieżkową</1> do generowania linków dla CID-ów przekraczających 63-znakowy limit DNS.</0>",
   "retrievalDiagnosticService": {
