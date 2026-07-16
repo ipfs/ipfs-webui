@@ -1,7 +1,8 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files.js'
+import { getDownloadLink, getCarLink, resolveShareCid } from '../../lib/files.js'
+import { buildShareLink, getFilenameQuery, getLocalLinks } from '../../lib/share-link.js'
 import countDirs from '../../lib/count-dirs.js'
 import memoize from 'p-memoize'
 import all from 'it-all'
@@ -153,8 +154,10 @@ const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
  * @typedef {Object} ConfigSelectors
  * @property {function():string} selectApiUrl
  * @property {function():string} selectGatewayUrl
+ * @property {function():string} selectLocalGatewayUrl
  * @property {function():string} selectPublicGateway
  * @property {function():string} selectPublicSubdomainGateway
+ * @property {function():string} selectEffectiveShareLinkType
  *
  * @typedef {Object} UnkonwActions
  * @property {function(string):Promise<unknown>} doUpdateHash
@@ -598,14 +601,35 @@ const actions = () => ({
 
   doFilesShareLink: (/** @type {FileStat[]} */ files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
+    const cid = await resolveShareCid(files, ipfs)
+    const filename = getFilenameQuery(files)
+    // Local-only gateway (user override or Kubo config): a link labeled local
+    // must never point at the public gateway.
+    const localGatewayUrl = store.selectLocalGatewayUrl()
     const publicGateway = store.selectPublicGateway()
     const publicSubdomainGateway = store.selectPublicSubdomainGateway()
-    const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
 
-    // Trigger background provide operation with the CID from getShareableLink
+    // The effective type already falls back to native when the chosen type's
+    // gateway is not configured, so buildShareLink always returns a link here.
+    const type = store.selectEffectiveShareLinkType()
+    const link = buildShareLink({
+      type,
+      namespace: 'ipfs',
+      pathId: cid.toString(),
+      subdomainLabel: cid.toV1().toString(),
+      filename,
+      localGatewayUrl,
+      publicGateway,
+      publicSubdomainGateway
+    })
+
+    // Local variants for the in-modal override, offered when the chosen type is
+    // native or public so users can still grab a same-machine link.
+    const { localLink, subdomainLocalLink } = getLocalLinks(cid, filename, localGatewayUrl)
+
     dispatchAsyncProvide(cid, ipfs)
 
-    return shareableLink
+    return { link, type, localLink, subdomainLocalLink }
   }),
 
   /**

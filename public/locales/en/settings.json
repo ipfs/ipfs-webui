@@ -24,8 +24,39 @@
   },
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "localGatewayDescription": "<0>If you access the WebUI through a reverse proxy, Docker, or a different host, enter the gateway URL your browser can reach. Leave empty to use the first <1>gateway address</1> from your Kubo config.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "shareLink": {
+    "title": "Sharing IPFS Links",
+    "intro": "This controls the link you copy with Share Link or Publish to IPNS. Each option fits a specific need, so pick the one that matches how the link will be opened.",
+    "pathVsSubdomain": "Gateway links come in two shapes: <0>path</0> and <1>subdomain</1>. A path link puts everything from that gateway on one origin, the boundary your browser uses for cache, cookies, and saved logins, so one page can see what another left behind. A subdomain link gives each item its own origin, so your browser keeps them apart. Use a subdomain link for opening or hosting web pages, and a path link for non-browser apps.",
+    "recommendedBadge": "Recommended",
+    "gatewayGroupTitle": "HTTP gateway links",
+    "gatewayGroupNote": "These open in any HTTP client, but depend on a specific URL being reachable.",
+    "usesGateway": "Produces links like",
+    "subdomainNote": "Each item gets its own origin. Learn <0>how browsers keep sites apart</0>.",
+    "publicGatewayHelp": "New to public gateways? Find one with the <0>Public Gateway Checker</0>, or <1>run your own</1>.",
+    "publicGatewayEmptyHint": "To use this, enter a gateway address below.",
+    "native": {
+      "label": "Native (ipfs:// and ipns:// addresses)",
+      "description": "These addresses don't depend on any HTTP server, so they keep working even when a public gateway is down. Best for sharing with people peer-to-peer.",
+      "companionNote": "To open them, you and the people you share with can install the <0>IPFS Companion</0> browser extension. Everyone then loads content directly from each other, instead of depending on someone else's HTTP server."
+    },
+    "localPath": {
+      "label": "Local gateway, path link",
+      "description": "Opens content straight from your node on this computer. Good for local apps that aren't a browser. Does not work for sharing with other people."
+    },
+    "localSubdomain": {
+      "label": "Local gateway, subdomain link",
+      "description": "Like the option above, but for web apps on this computer that need origin isolation for security. Does not work for sharing with other people. Needs a gateway on localhost, not a raw IP."
+    },
+    "publicPath": {
+      "label": "Public gateway, path link",
+      "description": "A link anyone on the internet can open through a public gateway. Without origin isolation, don't use it for sensitive web apps."
+    },
+    "publicSubdomain": {
+      "label": "Public gateway, subdomain link",
+      "description": "Like the option above, but the safer choice for opening or hosting web pages and apps that require origin isolation."
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "Retrieval Diagnostic Service",
     "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
