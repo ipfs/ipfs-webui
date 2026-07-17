@@ -115,7 +115,7 @@ This repository follows the IPFS [Code of Conduct](https://github.com/ipfs/commu
 > [!NOTE]
 > This project is maintained by the [Shipyard](https://ipshipyard.com/) team.
 >
-> [Releasing a new version](docs/RELEASING.md)
+> [Releasing a new version](docs/RELEASING.md): every merge to `main` is deployed to https://dev.webui.ipfs.io, and every tagged release to https://webui.ipfs.io.
 
 ## License
 

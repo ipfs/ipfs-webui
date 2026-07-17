@@ -1,0 +1,97 @@
+name: deploy-release
+
+# Publishes a tagged release to https://webui.ipfs.io: deploys the CAR file
+# attached to the GitHub Release to GitHub Pages, then points the production
+# dnslink at the same CID. Triggered automatically when semantic-release
+# (ci.yml) publishes a release, so a failed or skipped release never changes
+# what users see. Can also be dispatched manually with any existing release
+# tag to redeploy the site or roll back to an older release.
+#
+# NOTE: the automatic trigger relies on ci.yml running semantic-release with a
+# bot PAT (secrets.GH_TOKEN). Events created with the workflow-scoped
+# GITHUB_TOKEN do not trigger other workflows, so switching that secret to the
+# default token would silently stop these deploys.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'release tag to (re)deploy, e.g. v4.13.0'
+        required: true
+        type: string
+
+# queue deploys in order, never cancel one mid-flight
+concurrency:
+  group: deploy-release
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.tag }}
+
+jobs:
+  pages:
+    name: deploy webui.ipfs.io (GitHub Pages)
+    if: github.repository == 'ipfs/ipfs-webui'
+    runs-on: ubuntu-latest
+    outputs:
+      cid: ${{ steps.import.outputs.cid }}
+    permissions:
+      contents: read # download the release asset
+      pages: write
+      id-token: write # OIDC for deploy-pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download CAR from the release
+        run: gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.car' --output release.car
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - uses: ipfs/download-ipfs-distribution-action@v1
+        with:
+          name: kubo
+
+      - name: Unpack CAR into build/
+        id: import
+        run: |
+          ipfs init
+          root_cid=$(ipfs dag import release.car | awk '/^Pinned root/ { print $3 }')
+          test -n "$root_cid"
+          ipfs get "$root_cid" -o build
+          test -f build/index.html
+          # fail loudly if the unpacked tree does not match the released DAG
+          [ "$(ipfs add --cid-version 1 -Q -r -n ./build)" = "$root_cid" ]
+          echo "cid=$root_cid" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  dnslink:
+    name: update production dnslink
+    needs: pages
+    if: github.repository == 'ipfs/ipfs-webui'
+    runs-on: ubuntu-latest
+    environment: Deploy # holds DNSIMPLE_TOKEN
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6 # only for .tool-versions
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: '.tool-versions'
+
+      - run: go install github.com/ipfs/dnslink-dnsimple@v0.1.0
+
+      - name: Point _dnslink.webui at the released CID
+        run: dnslink-dnsimple --domain ipfs.tech --record _dnslink.webui --link "/ipfs/${{ needs.pages.outputs.cid }}"
+        env:
+          DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
