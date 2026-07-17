@@ -87,7 +87,7 @@ const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle,
   return (
     <nav aria-label={t('breadcrumbs')} className={classNames('Breadcrumbs flex items-center sans-serif overflow-hidden sticky top-0', className)} {...props}>
       <div className='nowrap overflow-hidden relative flex flex-wrap' ref={ anchors }>
-        <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
+        <div className={`absolute left-0 top-0 h-100 w1 breadcrumb-gradient ${overflows ? '' : 'dn'}`} />
 
         { bread.map((link, index) => (
           <div key={`${index}link`}>

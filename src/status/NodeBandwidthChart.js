@@ -17,35 +17,51 @@ const bwUnits = {
 const chartsize = filesize.partial({ round: 1, exponent: 2, ...bwUnits })
 const tootltipSize = filesize.partial({ round: 0, output: 'array', ...bwUnits })
 
-const defaultSettings = {
-  defaultFontFamily: "'Inter UI', system-ui, sans-serif",
-  responsive: true,
-  tooltips: {
-    mode: 'x',
-    position: 'nearest',
-    enabled: false
-  },
-  hover: { mode: 'index' },
-  scales: {
-    xAxes: [{
-      type: 'time',
-      time: {
-        minUnit: 'second'
+const getSettings = () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+  return {
+    defaultFontFamily: "'Inter UI', system-ui, sans-serif",
+    responsive: true,
+    tooltips: {
+      mode: 'x',
+      position: 'nearest',
+      enabled: false
+    },
+    hover: { mode: 'index' },
+    scales: {
+      xAxes: [{
+        type: 'time',
+        time: {
+          minUnit: 'second'
+        },
+        gridLines: {
+          color: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+        },
+        ticks: {
+          fontColor: isDark ? '#c8c3bc' : '#7f8491'
+        }
+      }],
+      yAxes: [{
+        stacked: true,
+        gridLines: {
+          color: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+        },
+        ticks: {
+          callback: v => chartsize(v) + '/s',
+          suggestedMax: 200000,
+          maxTicksLimit: 5,
+          fontColor: isDark ? '#c8c3bc' : '#7f8491'
+        }
+      }]
+    },
+    legend: {
+      reverse: true,
+      display: true,
+      position: 'bottom',
+      labels: {
+        fontColor: isDark ? '#e8e6e3' : '#34373f'
       }
-    }],
-    yAxes: [{
-      stacked: true,
-      ticks: {
-        callback: v => chartsize(v) + '/s',
-        suggestedMax: 200000,
-        maxTicksLimit: 5
-      }
-    }]
-  },
-  legend: {
-    reverse: true,
-    display: true,
-    position: 'bottom'
+    }
   }
 }
 
@@ -66,7 +82,7 @@ const Tooltip = ({ t, bw, show, pos }) => {
         left: '0',
         width: '0',
         height: '0',
-        borderTop: '20px solid white',
+        borderTop: '20px solid var(--tooltip-bg, white)',
         borderRight: '20px solid transparent'
       }} />
       <div className='dt'>
@@ -116,14 +132,15 @@ class NodeBandwidthChart extends React.Component {
 
     return function (canvas) {
       const ctx = canvas.getContext('2d')
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
 
       const gradientIn = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height)
-      gradientIn.addColorStop(0, '#70c5cd')
-      gradientIn.addColorStop(1, '#c6f1f3')
+      gradientIn.addColorStop(0, isDark ? '#1a4e52' : '#70c5cd')
+      gradientIn.addColorStop(1, isDark ? 'rgba(26, 78, 82, 0.1)' : '#c6f1f3')
 
       const gradientOut = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2)
-      gradientOut.addColorStop(0, '#f19237')
-      gradientOut.addColorStop(1, '#f9d1a6')
+      gradientOut.addColorStop(0, isDark ? '#7a4212' : '#f19237')
+      gradientOut.addColorStop(1, isDark ? 'rgba(122, 66, 18, 0.1)' : '#f9d1a6')
 
       return {
         datasets: [
@@ -167,11 +184,12 @@ class NodeBandwidthChart extends React.Component {
     }
 
     const tooltip = this.tooltip
+    const settings = getSettings()
 
     const options = {
-      ...defaultSettings,
+      ...settings,
       tooltips: {
-        ...defaultSettings.tooltips,
+        ...settings.tooltips,
         custom: function (model) {
           const data = { show: true }
 

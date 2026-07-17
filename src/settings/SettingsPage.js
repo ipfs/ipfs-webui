@@ -27,6 +27,7 @@ import Checkbox from '../components/checkbox/Checkbox.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 import StrokeCode from '../icons/StrokeCode.js'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
+import ThemeSelector from '../components/theme-selector/ThemeSelector.js'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -47,8 +48,8 @@ export const SettingsPage = ({
       * Will not show on consequent retries after a failure.
       */}
     { ipfsPendingFirstConnection
-      ? <div className="absolute flex items-center justify-center w-100 h-100"
-        style={{ background: 'rgba(255, 255, 255, 0.5)', zIndex: '10' }}>
+      ? <div className="absolute flex items-center justify-center w-100 h-100 bg-overlay"
+        style={{ zIndex: '10' }}>
         <ComponentLoader />
       </div>
       : null }
@@ -123,6 +124,10 @@ export const SettingsPage = ({
       <div className='joyride-settings-language'>
         <Title>{t('language')}</Title>
         <LanguageSelector t={t} />
+      </div>
+
+      <div className='mt4 joyride-settings-theme'>
+        <ThemeSelector />
       </div>
 
     { showAnalyticsComponents

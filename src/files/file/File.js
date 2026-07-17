@@ -82,7 +82,7 @@ const File = ({
   const styles = { height: 55, overflow: 'visible' }
 
   if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
-    styles.backgroundColor = '#F0F6FA'
+    className += ' file-row-selected'
   } else if (translucent) {
     className += ' o-70'
   }
