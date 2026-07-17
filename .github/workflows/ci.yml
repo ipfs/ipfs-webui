@@ -95,7 +95,7 @@ jobs:
       - name: Pin to web3.storage with w3cli
         id: pin-w3up
         # only pin for main commits
-        if: github.ref == 'refs/heads/main'
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
           # ensure whoami
@@ -122,7 +122,7 @@ jobs:
       - name: Pin to ipfs-websites.collab.ipfscluster.io
         id: pin-cluster
         # only pin for main commits
-        if: github.ref == 'refs/heads/main'
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
         continue-on-error: true
         timeout-minutes: 5 # pin should takes a few seconds, 5 min is a hard ceiling
         run: |
@@ -169,25 +169,87 @@ jobs:
 
       # dnslink-dnsimple requires go
       - uses: actions/setup-go@v6
-        if: github.ref == 'refs/heads/main'
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
         with:
           go-version-file: '.tool-versions'
 
       - name: Set up dnslink updater
-        if: github.ref == 'refs/heads/main'
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
         run: go install github.com/ipfs/dnslink-dnsimple@v0.1.0
 
       # dev dnslink is updated on each main branch update
       - run: dnslink-dnsimple --domain ipfs.tech --record _dnslink.dev.webui --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main'
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
-      # production dnslink is updated on release (during tag build)
+      # dev HTTP hosting: mirror build/ to the repo behind https://dev.webui.ipfs.io (GitHub Pages).
+      # force_orphan keeps that repo at a single commit; cname is required on every push because
+      # the orphan rewrite would otherwise drop the CNAME file that stores the custom domain.
+      - name: Publish build to ipfs/dev.webui.ipfs.io
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+        with:
+          deploy_key: ${{ secrets.DEV_WEBUI_PAGES_DEPLOY_KEY }}
+          external_repository: ipfs/dev.webui.ipfs.io
+          publish_branch: gh-pages
+          publish_dir: ./build
+          cname: dev.webui.ipfs.io
+          force_orphan: true
+          full_commit_message: 'ipfs-webui@${{ github.sha }} /ipfs/${{ steps.ipfs.outputs.cid }}'
+
+      # production dnslink is updated on release (workflow_dispatch on main)
       - run: dnslink-dnsimple --domain ipfs.tech --record _dnslink.webui --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+        if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
+
+  # HTTP hosting for https://webui.ipfs.io (GitHub Pages, deployed via Actions).
+  # Gated exactly like the production dnslink update in publishPreview, so the Pages
+  # site and DNSLink always publish the same content in the same run. Bytes come
+  # from the CAR artifact (the only unconditional per-run copy of build/; the
+  # build artifact is skipped on cache hits), so served content matches the pinned CID.
+  deployPages:
+    name: deploy webui.ipfs.io (GitHub Pages)
+    needs: publishPreview
+    if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages-prod
+      cancel-in-progress: false
+    steps:
+      - name: Download CAR artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ipfs-webui_${{ github.sha }}.car
+
+      - uses: ipfs/download-ipfs-distribution-action@v1
+        with:
+          name: kubo
+
+      - name: Unpack CAR into build/
+        run: |
+          ipfs init
+          ipfs dag import --pin-roots=false ipfs-webui_${{ github.sha }}.car
+          ipfs get ${{ needs.publishPreview.outputs.cid }} -o build
+          test -f build/index.html
+          # fail loudly if the unpacked tree does not match the CID that was pinned and DNSLinked
+          [ "$(ipfs add --cid-version 1 -Q -r -n ./build)" = "${{ needs.publishPreview.outputs.cid }}" ]
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
 
   test-e2e:
     name: 'test:e2e'
@@ -257,10 +319,9 @@ jobs:
           echo "  depcheck: ${{ steps.depcheck.outcome }}"
           exit 1
 
-  # automatically commit new tag and changelog updates when a push to main happens.
-  # This will then trigger
-  #    1. The 'ci.yml' workflow for the newly committed git tag,
-  #    2. The 'publish-release-build.yml' workflow
+  # creates a GitHub Release with changelog and CAR file when ci.yml is manually
+  # dispatched on main; the release commit lands with [skip ci], so no follow-up
+  # workflow run is triggered by it
   release:
     name: 'Run semantic release'
     runs-on: ubuntu-latest
