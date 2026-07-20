@@ -7,6 +7,7 @@
   "individualFilesOnly": "仅对文件有效",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
   "downloadPDF": "下载 PDF 文件",
+  "openWithLocalGateway": "",
   "openWithPublicGateway": "尝试使用您的<1>公共网关</1>来打开",
   "openWithLocalAndPublicGateway": "尝试使用您的<1>本地网关</1>或者<3>公共网关</3>来打开。",
   "cantBePreviewed": "对不起，本文件不支持预览。",
@@ -28,7 +29,12 @@
   },
   "shareModal": {
     "title": "共享文件",
-    "description": "请复制以下链接并与您的朋友分享。"
+    "description": "请复制以下链接并与您的朋友分享。",
+    "descriptionLocal": "",
+    "descriptionNative": "",
+    "useLocalLink": "",
+    "useSubdomains": "",
+    "linkError": ""
   },
   "renameModal": {
     "titleFile": "重命名文件",

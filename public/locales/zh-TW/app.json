@@ -90,6 +90,7 @@
     "pinStatus": "錨釘狀態",
     "publicKey": "公鑰",
     "publicGateway": "",
+    "publicSubdomainGateway": "",
     "localGateway": "",
     "rateIn": "發送率",
     "rateOut": "接收率",

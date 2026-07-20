@@ -52,7 +52,7 @@
     "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "Введите URL (https://dweb.link)"
+    "placeholder": ""
   },
   "ipfsCheckForm": {
     "label": "",
@@ -90,6 +90,7 @@
     "pinStatus": "Статус процесса",
     "publicKey": "Публичный ключ",
     "publicGateway": "Публичный шлюз",
+    "publicSubdomainGateway": "",
     "localGateway": "",
     "rateIn": "Входящий рейтинг",
     "rateOut": "Исходящий рейтинг",

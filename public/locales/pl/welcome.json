@@ -14,7 +14,7 @@
     "header": "Czym jest IPFS?",
     "paragraph1": "<0><0>Protokół dystrybucji hipermediów</0> łączący pomysły z Kademlia, BitTorrent, Git i innych</0>",
     "paragraph2": "<0><0>Sieć peer-to-peer do transferu plików</0> o całkowicie zdecentralizowanej architekturze, bez centralnego punktu awarii, cenzury czy kontroli</0>",
-    "paragraph3": "<0><0>Brama do internetu jutra</0> - tradycyjne przeglądarki mogą uzyskać dostęp do plików IPFS poprzez bramki HTTP, takie jak <2>https://dweb.link</2>, lub bezpośrednio za pomocą rozszerzenia <4>IPFS Companion</4></0>",
+    "paragraph3": "",
     "paragraph4": "<0><0>CDN nowej generacji</0> - wystarczy dodać plik do swojego węzła, aby udostępnić go światu dzięki adresowaniu treści opartemu na hashach i dystrybucji przepustowości w stylu BitTorrent</0>",
     "paragraph5": "<0><0>Zestaw narzędzi dla programistów</0> do tworzenia <2>w pełni rozproszonych aplikacji i usług</2>, wspierany przez silną społeczność open-source</0>"
   },

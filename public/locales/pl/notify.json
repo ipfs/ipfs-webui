@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "Nie można przypiąć w {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Pomyślnie przypięto w {serviceName}",
   "ipfsUnpinSucceedReason": "Pomyślnie odpięto z {serviceName}",
+  "ipnsPublishFailReason": "",
   "ipfsIsBack": "Usługa IPFS została wznowiona.",
   "folderExists": "Element o tej nazwie już istnieje. Wybierz inną nazwę.",
   "filesFetchFailed": "Nie udało się pobrać tych plików. Sprawdź ścieżkę i spróbuj ponownie.",

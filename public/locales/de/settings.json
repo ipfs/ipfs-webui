@@ -24,8 +24,39 @@
   },
   "apiDescription": "",
   "localGatewayDescription": "",
-  "publicSubdomainGatewayDescription": "",
-  "publicPathGatewayDescription": "",
+  "shareLink": {
+    "title": "",
+    "intro": "",
+    "pathVsSubdomain": "",
+    "recommendedBadge": "",
+    "gatewayGroupTitle": "",
+    "gatewayGroupNote": "",
+    "usesGateway": "",
+    "subdomainNote": "",
+    "publicGatewayHelp": "",
+    "publicGatewayEmptyHint": "",
+    "native": {
+      "label": "",
+      "description": "",
+      "companionNote": ""
+    },
+    "localPath": {
+      "label": "",
+      "description": ""
+    },
+    "localSubdomain": {
+      "label": "",
+      "description": ""
+    },
+    "publicPath": {
+      "label": "",
+      "description": ""
+    },
+    "publicSubdomain": {
+      "label": "",
+      "description": ""
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "",
     "description": ""

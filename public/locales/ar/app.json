@@ -52,7 +52,7 @@
     "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "أدخل عنوان  (https://dweb.link)"
+    "placeholder": ""
   },
   "ipfsCheckForm": {
     "label": "",
@@ -90,6 +90,7 @@
     "pinStatus": "حالة المشبك",
     "publicKey": "المفتاح العام",
     "publicGateway": "بوابة عامة",
+    "publicSubdomainGateway": "",
     "localGateway": "",
     "rateIn": "التقييم",
     "rateOut": "خارج التقييم",
