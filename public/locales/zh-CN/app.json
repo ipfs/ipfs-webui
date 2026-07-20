@@ -46,13 +46,13 @@
     "placeholder": "输入一个URL(http://user:password@127.0.0.1:5001) 或以Multiaddr形式(/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "输入一个URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "localGatewayForm": {
     "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "输入一个URL (https://dweb.link)"
+    "placeholder": ""
   },
   "ipfsCheckForm": {
     "label": "检索检查服务URL",
@@ -90,6 +90,7 @@
     "pinStatus": "固定状态",
     "publicKey": "公钥",
     "publicGateway": "公共网关",
+    "publicSubdomainGateway": "",
     "localGateway": "",
     "rateIn": "接收率",
     "rateOut": "发送率",

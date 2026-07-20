@@ -52,7 +52,7 @@
     "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "Bir URL girin (https://dweb.link)"
+    "placeholder": ""
   },
   "ipfsCheckForm": {
     "label": "",
@@ -90,6 +90,7 @@
     "pinStatus": "Pin Durumu",
     "publicKey": "Genel anahtar",
     "publicGateway": "Genel Ağ Geçidi",
+    "publicSubdomainGateway": "",
     "localGateway": "",
     "rateIn": "Giren oranı",
     "rateOut": "Çıkan oranı",

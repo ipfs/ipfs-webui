@@ -24,8 +24,39 @@
   },
   "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API RPC pour Kubo personnalisée, y compris un port autre que le défaut 5001, entrez-la ici.</0>",
   "localGatewayDescription": "<0>Si vous accédez à la WebUI via un reverse proxy, Docker, ou un hôte différent, entrez l'URL de la passerelle pour que votre navigateur puisse l'atteindre. Laissez vide pour utiliser la première <1>adresse de passerelle</1> de votre configuration de Kubo.</0>",
-  "publicSubdomainGatewayDescription": "<0>Sélectionnez votre <1>Passerelle de Sous-domaines</1> pour créer des liens partageables.</0>",
-  "publicPathGatewayDescription": "<0>Sélectionnez une <1>Passerelle de Chemins</1> de secours pour créer des liens partageables pour les CIDs excédants la limite de 63 caractères des DNS.</0>",
+  "shareLink": {
+    "title": "Partager des liens IPFS",
+    "intro": "Ce paramètre contrôle le lien que vous copiez avec Partager Lien ou Publier vers IPNS. Chaque option répond à un besoin spécifique, choisissez donc celle qui correspond à comment le lien sera ouvert.",
+    "pathVsSubdomain": "Les liens de passerelles peuvent prendre deux formes: <0>chemin</0> ou <1>sous-domaine</1>. Un lien de chemin place tout le contenu de cette passerelle sous une seule origine, qui est la limite qu'utilise votre navigateur pour le cache, les cookies, et les identifiants enregistrés. Une page peut donc voir ce qu'une autre a produit. Un lien de sous-domaine donne à chaque élément sa propre origine, et votre navigateur les isole donc les uns des autres. Utilisez un lien de sous-domaine pour ouvrir ou héberger des pages web, et un lien de chemin pour les applications hors des navigateurs.",
+    "recommendedBadge": "Recommandé",
+    "gatewayGroupTitle": "Liens de passerelle HTTP",
+    "gatewayGroupNote": "Ils s'ouvrent dans n'importe quel client HTTP, mais dépendent d'une URL spécifique pour être accessible.",
+    "usesGateway": "Produit des liens en tant que",
+    "subdomainNote": "Chaque élément obtient sa propre origine. Apprenez <0>comment les navigateurs gardent les sites web séparés</0>.",
+    "publicGatewayHelp": "Vous découvrez les passerelles publiques? Trouvez-en une avec le <0>Public Gateway Checker</0>, ou <1>opérez la vôtre</1>.",
+    "publicGatewayEmptyHint": "Pour l'utiliser, entrez une adresse de passerelle ci-dessous.",
+    "native": {
+      "label": "Natives  (ipfs:// and ipns:// adresses)",
+      "description": "Ces adresses ne dépendent pas d'un quelconque serveur HTTP, et fonctionnent donc même lorsque la passerelle publique est inaccessible. Meilleure option pour le pair-à-pair.",
+      "companionNote": "Pour les ouvrir, vous et ceux à qui vous les partagez peuvent installer l'extension de navigateur <0>IPFS Companion</0>. Chacun télécharge le contenu directement depuis les autres, au lieu de dépendre du serveur de quelqu'un d'autre."
+    },
+    "localPath": {
+      "label": "Passerelle locale, lien de chemin",
+      "description": "Ouvre le contenu directement depuis votre nœud sur cet ordinateur. Parfait pour les applications locales qui ne sont pas des navigateurs. Ne fonctionne pas pour partager avec d'autres personnes."
+    },
+    "localSubdomain": {
+      "label": "Passerelle locale, lien de sous-domaine",
+      "description": "Comme l'option précédente, mais pour les applications web sur cet ordinateur qui nécessitent une isolation des origines pour des raisons de sécurité. Nécessite une passerelle sur l'adresse localhost, pas une simple adresse IP."
+    },
+    "publicPath": {
+      "label": "Passerelle publique, lien de chemin",
+      "description": "Un lien que n'importe qui sur internet peut ouvrir via une passerelle publique. Pas d'isolation d'origine, ne pas utiliser pour des applications web sensibles."
+    },
+    "publicSubdomain": {
+      "label": "Passerelle publique, lien de sous-domaine",
+      "description": "Comme l'option précédente, mais le choix le plus sûr pour ouvrir et héberger des pages web ou des applications qui nécessitent une isolation de l'origine."
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "Service de diagnostic de disponibilité",
     "description": "Configure l'URL du service <0>ipfs-check</0> utilisé pour le <1>diagnostic de disponibilité</1>. Ce service vérifie que le contenu puisse être accessible avec succès depuis votre nœud et d'autres nœuds hébergeant un CID spécifique, vous aidant à régler des problèmes de partage."

@@ -24,8 +24,39 @@
   },
   "apiDescription": "<0>Jeśli Twój węzeł jest skonfigurowany z <1>niestandardowym adresem Kubo RPC API</1>, w tym portem innym niż domyślny 5001, wprowadź go tutaj.</0>",
   "localGatewayDescription": "",
-  "publicSubdomainGatewayDescription": "<0>Wybierz domyślną <1>bramkę subdomenową</1> do generowania linków do udostępniania.</0>",
-  "publicPathGatewayDescription": "<0>Wybierz zapasową <1>bramkę ścieżkową</1> do generowania linków dla CID-ów przekraczających 63-znakowy limit DNS.</0>",
+  "shareLink": {
+    "title": "",
+    "intro": "",
+    "pathVsSubdomain": "",
+    "recommendedBadge": "",
+    "gatewayGroupTitle": "",
+    "gatewayGroupNote": "",
+    "usesGateway": "",
+    "subdomainNote": "",
+    "publicGatewayHelp": "",
+    "publicGatewayEmptyHint": "",
+    "native": {
+      "label": "",
+      "description": "",
+      "companionNote": ""
+    },
+    "localPath": {
+      "label": "",
+      "description": ""
+    },
+    "localSubdomain": {
+      "label": "",
+      "description": ""
+    },
+    "publicPath": {
+      "label": "",
+      "description": ""
+    },
+    "publicSubdomain": {
+      "label": "",
+      "description": ""
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "Usługa diagnostyki pobierania",
     "description": "Skonfiguruj URL usługi <0>ipfs-check</0> używanej do <1>diagnostyki pobierania</1>. Ta usługa sprawdza, czy treść może być pomyślnie pobrana z Twojego węzła i innych węzłów hostujących dany CID, pomagając w rozwiązywaniu problemów z udostępnianiem."

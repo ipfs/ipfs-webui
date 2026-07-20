@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "Не удалось установить закрепление на {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Успешно закреплено на {serviceName}",
   "ipfsUnpinSucceedReason": "Успешно откреплено от {serviceName}",
+  "ipnsPublishFailReason": "",
   "ipfsIsBack": "Служба IPFS возобновлена. Наслаждайтесь!",
   "folderExists": "Элемент с таким именем уже существует. Пожалуйста, выберите другое.",
   "filesFetchFailed": "Не удалось получить файлы. Пожалуйста, проверьте путь и попробуйте снова.",

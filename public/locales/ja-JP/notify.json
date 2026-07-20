@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "{serviceName}のピン留めができません：{errorMsg}",
   "ipfsPinSucceedReason": "{serviceName}のピン留めに成功",
   "ipfsUnpinSucceedReason": "{serviceName}からピン留めの解除に成功",
+  "ipnsPublishFailReason": "",
   "ipfsIsBack": "通常のIPFSサービスが再起動しました。おかえりなさい。",
   "folderExists": "その名前のアイテムは既に存在します。別の名前を指定してください。",
   "filesFetchFailed": "これらのファイルの取得に失敗しました。パスを確認して、もう一度お試しください。",

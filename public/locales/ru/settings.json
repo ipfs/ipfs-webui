@@ -24,8 +24,39 @@
   },
   "apiDescription": "<0>Если ваш узел настроен с <1>пользовательским адресом Kubo RPC API</1>, включая порт, отличный от стандартного 5001, введите его здесь.</0>",
   "localGatewayDescription": "",
-  "publicSubdomainGatewayDescription": "",
-  "publicPathGatewayDescription": "",
+  "shareLink": {
+    "title": "",
+    "intro": "",
+    "pathVsSubdomain": "",
+    "recommendedBadge": "",
+    "gatewayGroupTitle": "",
+    "gatewayGroupNote": "",
+    "usesGateway": "",
+    "subdomainNote": "",
+    "publicGatewayHelp": "",
+    "publicGatewayEmptyHint": "",
+    "native": {
+      "label": "",
+      "description": "",
+      "companionNote": ""
+    },
+    "localPath": {
+      "label": "",
+      "description": ""
+    },
+    "localSubdomain": {
+      "label": "",
+      "description": ""
+    },
+    "publicPath": {
+      "label": "",
+      "description": ""
+    },
+    "publicSubdomain": {
+      "label": "",
+      "description": ""
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "",
     "description": ""

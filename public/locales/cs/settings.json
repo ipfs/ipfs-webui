@@ -24,8 +24,39 @@
   },
   "apiDescription": "<0>Pokud je váš uzel nakonfigurován s <1>vlastní adresou rozhraní Kubo RPC API</1> včetně jiného portu než výchozího 5001, zadejte ji zde.</0>",
   "localGatewayDescription": "",
-  "publicSubdomainGatewayDescription": "<0>Vyberte výchozí <1>bránu subdomény</1> pro generování sdílených odkazů.</0>",
-  "publicPathGatewayDescription": "<0>Vyberte záložní <1>bránu cesty</1> pro generování sdílených odkazů pro identifikátory CID, které přesahují limit 63 znaků DNS.</0>",
+  "shareLink": {
+    "title": "",
+    "intro": "",
+    "pathVsSubdomain": "",
+    "recommendedBadge": "",
+    "gatewayGroupTitle": "",
+    "gatewayGroupNote": "",
+    "usesGateway": "",
+    "subdomainNote": "",
+    "publicGatewayHelp": "",
+    "publicGatewayEmptyHint": "",
+    "native": {
+      "label": "",
+      "description": "",
+      "companionNote": ""
+    },
+    "localPath": {
+      "label": "",
+      "description": ""
+    },
+    "localSubdomain": {
+      "label": "",
+      "description": ""
+    },
+    "publicPath": {
+      "label": "",
+      "description": ""
+    },
+    "publicSubdomain": {
+      "label": "",
+      "description": ""
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "",
     "description": ""

@@ -52,7 +52,7 @@
     "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "Gib eine URL ein (https://dweb.link)"
+    "placeholder": ""
   },
   "ipfsCheckForm": {
     "label": "",
@@ -90,6 +90,7 @@
     "pinStatus": "Anheftstatus",
     "publicKey": "Öffentlicher Schlüssel",
     "publicGateway": "Öffentliches Gateway",
+    "publicSubdomainGateway": "",
     "localGateway": "",
     "rateIn": "Eingangsrate",
     "rateOut": "Ausgangsrate",
