@@ -61,7 +61,7 @@ export const Schedule: React.FC<Props> = ({ sweep }) => {
           value={eta ?? PLACEHOLDER}
         />
 
-        <div className='mt3 pt3 bt b--black-10'>
+        <div className='mt3 pt3 bt' style={{ borderColor: 'var(--theme-border-primary)' }}>
           <MetricRow
             label={t('dhtProvide.schedule.cidsScheduled')}
             value={formatCount(sweep.schedule?.keys)}
@@ -88,7 +88,7 @@ export const Schedule: React.FC<Props> = ({ sweep }) => {
 
           <MetricRow
             label={t('dhtProvide.schedule.nextRegionPrefix')}
-            value={<code className='f6 pa1 br2 bg-snow'>{sweep.schedule?.next_reprovide_prefix || PLACEHOLDER}</code>}
+            value={<code className='f6 pa1 br2' style={{ backgroundColor: 'var(--theme-bg-secondary)', color: 'var(--theme-text-primary)' }}>{sweep.schedule?.next_reprovide_prefix || PLACEHOLDER}</code>}
           />
 
           <MetricRow

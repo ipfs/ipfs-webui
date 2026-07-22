@@ -265,11 +265,11 @@ const FilesGrid = ({
           />
         ))}
         {filteredFiles.length === 0 && filter && (
-          <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>{t('noFilesMatchFilter')}</div>
+          <div className='pv3 b--light-gray files-grid-empty bt tc f6 noselect' style={{ color: 'var(--theme-text-secondary)' }}>{t('noFilesMatchFilter')}</div>
         )}
         {filteredFiles.length === 0 && !filter && !filesPathInfo?.isRoot && (
           <Trans i18nKey='filesList.noFiles' t={t}>
-            <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>No files in this directory. Click the "Import" button to add some.</div>
+            <div className='pv3 b--light-gray files-grid-empty bt tc f6 noselect' style={{ color: 'var(--theme-text-secondary)' }}>No files in this directory. Click the "Import" button to add some.</div>
           </Trans>
         )}
       </div>
