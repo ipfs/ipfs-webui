@@ -46,13 +46,13 @@
     "placeholder": "输入一个URL(http://user:password@127.0.0.1:5001) 或以Multiaddr形式(/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": ""
+    "placeholder": "输入一个HTTP URL (https://path-gw.example.com)"
   },
   "localGatewayForm": {
-    "placeholder": ""
+    "placeholder": "输入一个HTTP URL (http://localhost:8080)"
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": ""
+    "placeholder": "输入一个HTTP URL  (https://subdomain-gw.example.net)"
   },
   "ipfsCheckForm": {
     "label": "检索检查服务URL",
@@ -90,8 +90,8 @@
     "pinStatus": "固定状态",
     "publicKey": "公钥",
     "publicGateway": "公共网关",
-    "publicSubdomainGateway": "",
-    "localGateway": "",
+    "publicSubdomainGateway": "公共子域名网关",
+    "localGateway": "本地HTTP网关",
     "rateIn": "接收率",
     "rateOut": "发送率",
     "repo": "库",
