@@ -191,8 +191,20 @@ const actions = () => ({
     const isConnected = store.selectIpfsConnected()
     const isFetching = store.selectFilesIsFetching()
     const info = store.selectFilesPathInfo()
-    if (isReady && isConnected && !isFetching && info) {
+    if (!isReady || !isConnected || !info || isFetching) return
+
+    try {
       await store.doFetch(info)
+    } finally {
+      // Navigating away while a listing is in flight makes that navigation's own
+      // doFilesFetch() a no-op, because of the isFetching check above, and
+      // nothing else retries it. Without this the view keeps waiting on content
+      // for a path we already left. Runs on failure too, since a rejected fetch
+      // leaves the new path just as unfetched.
+      const current = store.selectFilesPathInfo()
+      if (current && current.path !== info.path) {
+        await store.doFilesFetch()
+      }
     }
   },
 
