@@ -6,7 +6,7 @@ import Details from '../details/Details.js'
 
 const ExampleRequest = ({ url, method = 'GET' }) => {
   return (
-    <pre className='overflow-x-scroll pa3 mr3 f6 ba b--black-10 br2 bg-snow-muted'>
+    <pre className='overflow-x-scroll pa3 mr3 f6 ba br2' style={{ borderColor: 'var(--theme-border-primary)', backgroundColor: 'var(--theme-bg-secondary)' }}>
       <code className='green'>{method}</code> {url}
     </pre>
   )
@@ -17,7 +17,7 @@ const QueryParams = ({ url }) => {
   const params = (new URL(url)).searchParams
   const entries = [...params]
   return (
-    <dl className='pa3 mr3 f7 overflow-x-scroll monospace nowrap ba b--black-10 br2 bg-snow-muted'>
+    <dl className='pa3 mr3 f7 overflow-x-scroll monospace nowrap ba br2' style={{ borderColor: 'var(--theme-border-primary)', backgroundColor: 'var(--theme-bg-secondary)' }}>
       {entries.map(([key, value]) => (
         <div key={`QueryParams-${key}`}>
           <dt className='dib green'>{key}:</dt>
@@ -32,9 +32,9 @@ const AnalyticType = ({ children, onChange, enabled, label, summary, exampleRequ
   // show hide state. update react.
   const [isOpen, setOpen] = useState(false)
   return (
-    <section className='bg-white bb b--black-10'>
+    <section className='bb b--black-10' style={{ background: 'var(--theme-bg-primary)' }}>
       <div className='flex items-center'>
-        <Checkbox className='pv3 pl3 pr1 bg-white flex-none' onChange={onChange} checked={enabled} label={
+        <Checkbox className='pv3 pl3 pr1 flex-none' style={{ background: 'var(--theme-bg-primary)' }} onChange={onChange} checked={enabled} label={
           <span className='fw5 f6'>{label}</span>
         } />
         <div className='truncate fw4 f6 flex-auto charcoal-muted'>&ndash; {summary}</div>
@@ -119,7 +119,7 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
             <ul>
               {analyticsActionsToRecord.map(name => (
                 <li key={name} className='mb1'>
-                  <code className='f7 bg-snow-muted pa1 br2'>{name}</code>
+                  <code className='f7 pa1 br2' style={{ backgroundColor: 'var(--theme-bg-secondary)', color: 'var(--theme-text-primary)' }}>{name}</code>
                 </li>
               ))}
             </ul>

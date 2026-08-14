@@ -62,7 +62,7 @@ class ContextMenu extends React.Component {
           onDismiss={this.props.handleClick}>
           { onShare &&
             <Option onClick={this.wrap('onShare')}>
-              <StrokeShare className='w2 mr2 fill-aqua' />
+              <StrokeShare className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('actions.share')}
             </Option>
           }
@@ -73,59 +73,59 @@ class ContextMenu extends React.Component {
             }
           }}>
             <Option>
-              <StrokeCopy className='w2 mr2 fill-aqua' />
+              <StrokeCopy className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('actions.copyHash')}
             </Option>
           </CopyToClipboard>
           { onInspect &&
             <Option onClick={this.wrap('onInspect')}>
-              <StrokeIpld className='w2 mr2 fill-aqua' />
+              <StrokeIpld className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:actions.inspect')}
             </Option>
           }
           <Option onClick={this.wrap('onPinning')} isCliTutorModeEnabled={isCliTutorModeEnabled}
             onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PIN_OBJECT)}>
-            <StrokePin className='w2 mr2 fill-aqua' />
+            <StrokePin className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
             { t('app:actions.setPinning') }
           </Option>
           { !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_OBJECT_COMMAND)}>
-              <StrokeDownload className='w2 mr2 fill-aqua' />
+              <StrokeDownload className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:actions.download')}
             </Option>
           }
           { !isUnknown && onDownloadCar &&
             <Option onClick={this.wrap('onDownloadCar')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_CAR_COMMAND)}>
-              <StrokeData className='w2 mr2 fill-aqua' />
+              <StrokeData className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:actions.downloadCar')}
             </Option>
           }
           { !isUnknown && isMfs && onRename &&
             <Option onClick={this.wrap('onRename')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.RENAME_IPFS_OBJECT)}>
-              <StrokePencil className='w2 mr2 fill-aqua' />
+              <StrokePencil className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:actions.rename')}
             </Option>
           }
           { !isUnknown && isMfs && onRemove &&
             <Option onClick={this.wrap('onRemove')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.REMOVE_FILE_FROM_IPFS)}>
-              <StrokeTrash className='w2 mr2 fill-aqua' />
+              <StrokeTrash className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:actions.remove')}
             </Option>
           }
           { onPublish &&
             <Option onClick={this.wrap('onPublish')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PUBLISH_WITH_IPNS)}>
-              <StrokeSpeaker className='w2 mr2 fill-aqua' />
+              <StrokeSpeaker className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('actions.publishWithIpns')}
             </Option>
           }
           { onCheckRetrieval &&
             <Option onClick={this.wrap('onCheckRetrieval')}>
-              <StrokeLab className='w2 mr2 fill-aqua' />
+              <StrokeLab className='w2 mr2' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:actions.checkRetrieval')}
             </Option>
           }

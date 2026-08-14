@@ -34,7 +34,7 @@ const SearchFilter = ({ initialValue = '', onFilterChange, filteredCount, totalC
   }, [clearFilter])
 
   return (
-    <div className={classnames('flex items-center pa2 bg-snow-muted', className)}>
+    <div className={classnames('flex items-center pa2', className)} style={{ background: 'var(--theme-bg-tertiary)' }}>
       <div className='flex items-center relative flex-auto'>
         <input
           id='search-filter-input'
@@ -48,8 +48,8 @@ const SearchFilter = ({ initialValue = '', onFilterChange, filteredCount, totalC
         />
         {filter && (
           <button
-            className='absolute bg-transparent bn pointer f5 gray flex items-center justify-center'
-            style={{ right: '0.5rem', top: 0, bottom: 0 }}
+            className='absolute bg-transparent bn pointer f5 flex items-center justify-center'
+            style={{ right: '0.5rem', top: 0, bottom: 0, color: 'var(--theme-text-secondary)' }}
             onClick={clearFilter}
             aria-label={t('clearSearch')}
             title={t('clearSearch')}
@@ -59,7 +59,7 @@ const SearchFilter = ({ initialValue = '', onFilterChange, filteredCount, totalC
         )}
       </div>
       {filter && (
-        <div className='ml2 f6 charcoal-muted nowrap'>
+        <div className='ml2 f6 nowrap' style={{ color: 'var(--theme-text-secondary)' }}>
           {filteredCount} / {totalCount}
         </div>
       )}

@@ -1,5 +1,5 @@
 .Radio > span:first-of-type {
-  background-color: #DDE6EB;
+  background-color: var(--theme-bg-secondary);
 }
 
 .Radio > input {
@@ -16,5 +16,5 @@
 }
 
 .Radio input:focus + span {
-  outline: 1px solid #bbb;
+  outline: 1px solid var(--theme-border-primary);
 }

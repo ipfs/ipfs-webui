@@ -14,13 +14,13 @@ import './SelectedActions.css'
 
 const styles = {
   bar: {
-    background: '#F0F6FA',
-    borderColor: '#CFE0E2',
-    color: '#59595A'
+    background: 'var(--theme-bg-tertiary)',
+    borderColor: 'var(--theme-border-selectedActions)',
+    color: 'var(--theme-text-darkGray)'
   },
   count: {
-    backgroundColor: '#69C4CD',
-    color: '#F9FAFB',
+    backgroundColor: 'var(--theme-button-selectedActionsCount)',
+    color: 'var(--theme-text-selectedActionsCount)',
     width: '38px',
     height: '38px'
   },
@@ -30,12 +30,12 @@ const styles = {
     transform: 'translate(-50%, -50%)'
   },
   size: {
-    color: '#A4BFCC'
+    color: 'var(--theme-text-selectedActionsSize)'
   }
 }
 
 const classes = {
-  svg: (v) => v ? 'w3 pointer hover-fill-navy-muted' : 'w3',
+  svg: (v) => v ? 'w3 pointer' : 'w3',
   action: (v) => v ? 'pointer' : 'disabled o-50'
 }
 
@@ -99,37 +99,37 @@ class SelectedActions extends React.Component {
             </div>
           </div>
           <div className='flex' role="menu" aria-label={t('menuOptions')} ref={ this.containerRef }>
-            <button role="menuitem" className='tc mh2' onClick={share}>
-              <StrokeShare className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
+            <button role="menuitem" className='tc mh2' onClick={share} onMouseEnter={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-primary)' }} onMouseLeave={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-selectedActionsSize)' }}>
+              <StrokeShare className='w3' style={{ fill: 'var(--theme-text-selectedActionsSize)' }} aria-hidden="true"/>
               <p className='ma0 f6'>{t('actions.share')}</p>
             </button>
-            <button role="menuitem" className='tc mh2' onClick={download}>
-              <StrokeDownload className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
+            <button role="menuitem" className='tc mh2' onClick={download} onMouseEnter={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-primary)' }} onMouseLeave={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-selectedActionsSize)' }}>
+              <StrokeDownload className='w3' style={{ fill: 'var(--theme-text-selectedActionsSize)' }} aria-hidden="true"/>
               <p className='ma0 f6'>{t('app:actions.download')}</p>
             </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isMfs))} onClick={isMfs ? remove : null}>
-              <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' aria-hidden="true"/>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isMfs))} onClick={isMfs ? remove : null} onMouseEnter={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg && isMfs) svg.style.fill = 'var(--theme-text-primary)' }} onMouseLeave={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-selectedActionsSize)' }}>
+              <StrokeTrash className={classes.svg(isMfs)} style={{ fill: 'var(--theme-text-selectedActionsSize)' }} aria-hidden="true"/>
               <p className='ma0 f6'>{t('app:actions.remove')}</p>
             </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? setPinning : null}>
-              <StrokePin className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? setPinning : null} onMouseEnter={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg && isSingle) svg.style.fill = 'var(--theme-text-primary)' }} onMouseLeave={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-selectedActionsSize)' }}>
+              <StrokePin className={classes.svg(isSingle)} style={{ fill: 'var(--theme-text-selectedActionsSize)' }} aria-hidden="true"/>
               <p className='ma0 f6'>{t('app:actions.setPinning')}</p>
             </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
-              <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? inspect : null} {...singleFileTooltip} onMouseEnter={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg && isSingle) svg.style.fill = 'var(--theme-text-primary)' }} onMouseLeave={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-selectedActionsSize)' }}>
+              <StrokeIpld className={classes.svg(isSingle)} style={{ fill: 'var(--theme-text-selectedActionsSize)' }} aria-hidden="true"/>
               <p className='ma0 f6'>{t('app:actions.inspect')}</p>
             </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle && isMfs))} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip}>
-              <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' aria-hidden="true"/>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle && isMfs))} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip} onMouseEnter={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg && isSingle && isMfs) svg.style.fill = 'var(--theme-text-primary)' }} onMouseLeave={(e) => { const svg = e.currentTarget.querySelector('svg'); if (svg) svg.style.fill = 'var(--theme-text-selectedActionsSize)' }}>
+              <StrokePencil className={classes.svg(isSingle && isMfs)} style={{ fill: 'var(--theme-text-selectedActionsSize)' }} aria-hidden="true"/>
               <p className='ma0 f6'>{t('app:actions.rename')}</p>
             </button>
           </div>
           <div>
-            <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>
+            <button onClick={unselect} className='flex items-center justify-end f6' style={{ color: 'var(--theme-text-primary)' }}>
               {/* TODO: Should we go back to the files list when we tab out of here? */}
               <span className='mr2 dn db-l'>{t('app:actions.unselectAll')}</span>
               <span className='mr2 dn db-m'>{t('app:actions.clear')}</span>
-              <GlyphSmallCancel onClick={unselect} className='fill-charcoal w1 o-70' viewBox='37 40 27 27' />
+              <GlyphSmallCancel onClick={unselect} className='w1 o-70' style={{ fill: 'var(--theme-text-primary)' }} viewBox='37 40 27 27' />
             </button>
           </div>
         </div>
