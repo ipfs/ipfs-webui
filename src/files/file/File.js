@@ -91,7 +91,8 @@ const File = ({
     styles.border = '1px dashed #9ad4db'
   } else {
     styles.border = '1px solid transparent'
-    styles.borderTop = '1px solid #eee'
+    // borderTop is omitted here — the b--light-gray class on the wrapper handles
+    // the row separator so the dark-mode CSS override in index.css can reach it
   }
 
   size = humanSize(size, { round: 0 })

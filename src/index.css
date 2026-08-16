@@ -94,7 +94,7 @@ button,
   --tooltip-bg: #ffffff;
 
   /* File selection */
-  --file-row-selected-bg: #daedf5;
+  --file-row-selected-bg: #F0F6FA;
   --action-bar-bg: #F0F6FA;
   --action-bar-border: #CFE0E2;
   --action-bar-text: #59595A;
@@ -105,6 +105,7 @@ button,
   --background: #181a1b;
   --text: #e8e6e3;
   --element-bg: #1a1c1e;
+  /* Base palette tokens — referenced by design system; kept even if no direct rule uses them */
   --navy-dark: #0b3a53;
   --navy-text-color: rgb(202, 198, 191);
   --snow-muted: rgb(28, 30, 31);
@@ -114,6 +115,7 @@ button,
   --overlay-bg: rgba(0, 0, 0, 0.5);
   --publish-modal-gradient: linear-gradient(90deg, rgba(31, 38, 46, 0.35), var(--element-bg) 10%, var(--element-bg) 100%);
   --breadcrumb-gradient: linear-gradient(to right, var(--element-bg) 0%, transparent 100%);
+  /* Base palette token — used by bg-gray-muted dark override and potential future rules */
   --gray-muted: #d9dbe2;
   --charcoal: #c8c3bc;
   --charcoal-muted: #8c8273;
@@ -143,15 +145,37 @@ button,
 [data-theme="dark"] .bg-white-70 { background-color: var(--element-bg) !important; opacity: 1 !important; }
 [data-theme="dark"] .charcoal { color: var(--charcoal) !important; }
 [data-theme="dark"] .charcoal-muted { color: var(--charcoal-muted) !important; }
-[data-theme="dark"] .navy { color: var(--text) !important; }
 [data-theme="dark"] .dark-gray { color: var(--text) !important; }
+[data-theme="dark"] .selected-item { color: var(--charcoal) !important; }
 
 /* Map theming */
 [data-theme="dark"] .world-map {
   filter: invert(0.85) hue-rotate(180deg) opacity(0.6);
 }
 
+.webui-header {
+  background-color: var(--action-bar-bg, #F0F6FA);
+}
+
 [data-theme="dark"] .webui-header { background-color: var(--snow-muted) !important; }
+
+/*
+ * Explore Page — dark mode support
+ * ipld-explorer-components does not ship its own dark CSS; the global Tachyons/IPFS-CSS
+ * overrides above already cover most classes (.charcoal, .dark-gray, .navy, .b--black-10…).
+ * Rules below are explore-specific additions that the global block does not reach.
+ * Add targeted overrides here if an ipld-explorer-components upgrade introduces regressions.
+ * See: https://github.com/ipfs-shipyard/ipfs-webui/issues/1702
+ */
+[data-theme="dark"] .explore-page-container .black {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .explore-page-container .snow {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .explore-page-container .avenir.measure-wide-l {
+  background: var(--element-bg) !important;
+}
 
 /* Tachyons borders */
 [data-theme="dark"] .b--black-20 { border-color: var(--border-color) !important; }
@@ -217,3 +241,15 @@ html[data-theme="dark"] body {
 [data-theme="dark"] .react-joyride__tooltip > div > div > svg > polygon {
   fill: var(--element-bg) !important;
 }
+
+/* Disabled buttons: bg-gray-muted is the original class kept in button.tsx;
+   override it in dark mode to avoid invisible buttons on dark backgrounds */
+[data-theme="dark"] .bg-gray-muted { background-color: var(--snow-muted) !important; }
+
+/* File rows: inline borderTop (#eee) cannot be reached by CSS; drop it in File.js
+   and override the b--light-gray class here for theme-aware separators */
+[data-theme="dark"] .b--light-gray { border-color: var(--border-color) !important; }
+
+/* WCAG AA contrast: blue links are too dark on the dark background (#181a1b).
+   Switch to a lighter teal-adjacent hue that passes the 4.5:1 contrast check. */
+[data-theme="dark"] .link.blue { color: #69c4cd !important; }

@@ -19,9 +19,9 @@ const ThemeSelector = ({ t }) => {
           value={theme}
           onChange={onChange}
         >
-          <option value='auto'>Auto</option>
-          <option value='light'>Light</option>
-          <option value='dark'>Dark</option>
+          <option value='auto'>{t('themeAuto')}</option>
+          <option value='light'>{t('themeLight')}</option>
+          <option value='dark'>{t('themeDark')}</option>
         </select>
         <span className='ml3 f6 charcoal-muted'>
           {t('themeDescription') || 'Choose a theme or sync with your system preference.'}

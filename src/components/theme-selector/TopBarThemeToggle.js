@@ -39,10 +39,11 @@ export const TopBarThemeToggle = () => {
 
   return (
     <button
-      className="button-reset bg-transparent bn p0 m0 mr3 flex items-center justify-center pointer charcoal-muted hover-navy transition-all glow"
+      className="button-reset bg-transparent bn p0 m0 mr3 flex items-center justify-center pointer charcoal-muted hover-navy transition-all glow focus-outline"
       onClick={cycleTheme}
       title={t('themeDescription')}
-      style={{ width: 28, height: 28, outline: 'none' }}
+      aria-label={`${t('theme')}: ${theme}`}
+      style={{ width: 28, height: 28 }}
     >
       <Icon width={24} height={24} className="fill-current-color" />
     </button>

@@ -13,6 +13,10 @@
     "removeAutoUpload": "Disable Auto Upload"
   },
   "language": "Language",
+  "theme": "Theme",
+  "themeAuto": "Auto",
+  "themeLight": "Light",
+  "themeDark": "Dark",
   "themeDescription": "Choose your preferred color theme.",
   "analytics": "Analytics",
   "cliTutorMode": "CLI Tutor Mode",

@@ -126,7 +126,7 @@ export const SettingsPage = ({
         <LanguageSelector t={t} />
       </div>
 
-      <div className='mt4 joyride-settings-theme'>
+      <div className='mt4'>
         <ThemeSelector />
       </div>
 
