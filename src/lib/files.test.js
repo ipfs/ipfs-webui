@@ -1,7 +1,6 @@
 /* global it, expect */
-import { normalizeFiles, getShareableLink } from './files.js'
-import { DEFAULT_SUBDOMAIN_GATEWAY, DEFAULT_PATH_GATEWAY } from '../bundles/gateway.js'
 import { CID } from 'multiformats/cid'
+import { normalizeFiles, getDownloadLink, getCarLink } from './files.js'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)
@@ -252,35 +251,11 @@ it('drop multiple directories', async () => {
   expectRightOutput(output, expected)
 })
 
-it('should get a subdomain gateway url', async () => {
-  const ipfs = {}
-  const myCID = CID.parse('QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V')
-  const file = {
-    cid: myCID,
-    name: 'example.txt'
-  }
-  const files = [file]
-
-  const url = new URL(DEFAULT_SUBDOMAIN_GATEWAY)
-  const { link: shareableLink, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
-  const base32Cid = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
-  const rightShareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}`
-  expect(shareableLink).toBe(rightShareableLink)
-  expect(cid).toBeDefined()
-})
-
-it('should get a path gateway url', async () => {
-  const ipfs = {}
-  // very long CID v1 (using sha3-512)
-  const veryLongCidv1 = 'bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja'
-  const myCID = CID.parse(veryLongCidv1)
-  const file = {
-    cid: myCID,
-    name: 'example.txt'
-  }
-  const files = [file]
-
-  const { link: res, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
-  expect(res).toBe(DEFAULT_PATH_GATEWAY + '/ipfs/' + veryLongCidv1)
-  expect(cid).toBeDefined()
+it('getDownloadLink and getCarLink route a localhost gateway through 127.0.0.1', async () => {
+  const cid = CID.parse('bafkqac3imvwgy3zao5xxe3de')
+  const files = [{ type: 'file', name: 'a.txt', cid }]
+  expect(await getDownloadLink(files, 'http://localhost:8080', null)).toMatch(/^http:\/\/127\.0\.0\.1:8080\/ipfs\//)
+  expect(await getCarLink(files, 'http://localhost:8080', null)).toMatch(/^http:\/\/127\.0\.0\.1:8080\/ipfs\//)
+  // a non-localhost gateway is passed through untouched
+  expect(await getDownloadLink(files, 'https://dweb.link', null)).toMatch(/^https:\/\/dweb\.link\/ipfs\//)
 })

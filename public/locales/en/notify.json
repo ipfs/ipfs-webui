@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
   "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
+  "ipnsPublishFailReason": "Unable to publish to IPNS under key {keyName}: {errorMsg}",
   "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
   "folderExists": "An item with that name already exists. Please choose another.",
   "filesFetchFailed": "Failed to get those files. Please check the path and try again.",

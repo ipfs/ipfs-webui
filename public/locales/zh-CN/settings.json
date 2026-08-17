@@ -23,8 +23,40 @@
     "translationProjectLink": "加入IPFS翻译项目"
   },
   "apiDescription": "<0>如果您的节点配置了一个<1>自定义的Kubo PRC API地址</1>，以及包含了其他非默认的5001端口的情况下，在这里修改。</0>",
-  "publicSubdomainGatewayDescription": "<0>选择一个默认的<1>子域名网关</1>用于生成可共享的链接。</0>",
-  "publicPathGatewayDescription": "<0>选择一个备用的<1>路径网关</1>，用于生成超过63个字符DNS限制的CID可共享链接。</0>",
+  "localGatewayDescription": "<0>如果您通过反向代理、Docker或其他主机访问WebUI，请输入浏览器可以访问的网关URL。留空以使用Kubo配置中的第一个<1>网关地址</1>。</0>\n\n",
+  "shareLink": {
+    "title": "分享IPFS链接",
+    "intro": "此项设置用于控制您通过“分享链接”或“发布到 IPNS”操作所复制的链接格式。每个选项均针对特定使用场景而设计，请根据链接预期被打开的方式选择最合适的选项。",
+    "pathVsSubdomain": "网关链接分为两种形式：<0>路径链接path</0>和<1>子域名链接subdomain</1>。路径链接将网关上所有内容置于同一源（origin）之下——源是浏览器用于划分缓存、Cookie 和已保存登录状态的边界，因此同一源内的一个页面能够读取另一个页面遗留的数据。而子域名链接则为每个项目分配独立的源，浏览器会将它们完全隔离。使用建议：打开或托管网页时请用子域名链接，非浏览器应用则宜采用路径链接。",
+    "recommendedBadge": "推荐",
+    "gatewayGroupTitle": "HTTP网关链接",
+    "gatewayGroupNote": "这些链接可以在任何 HTTP 客户端中打开，但前提是所依赖的具体 URL 必须能够被访问到。",
+    "usesGateway": "生成以下链接",
+    "subdomainNote": "每个项目都有自己的源(origin) 。<0>了解浏览器如何将网站分开</0>。",
+    "publicGatewayHelp": "初次了解公共网关？使用<0>公共网关检查器</0>查找一个，或<1>运行一个自己部署的</1>",
+    "publicGatewayEmptyHint": "要使用此功能，请在下面输入网关地址。",
+    "native": {
+      "label": "本地 (ipfs:// and ipns:// 地址)",
+      "description": "这些地址不依赖于任何HTTP服务器，因此即使公共网关关闭，它们也能继续工作。最适合与人点对点的分享。",
+      "companionNote": "要打开它们，您和您共享的人可以安装<0>IPFS 伴侣</0>浏览器扩展。然后，每个人都直接从彼此加载内容，而不是依赖于其他人的HTTP服务器。"
+    },
+    "localPath": {
+      "label": "本地网关，路径链接",
+      "description": "该链接直接从您本机运行的 IPFS 节点获取内容，适用于非浏览器的本地应用程序，但无法用于与他人分享。"
+    },
+    "localSubdomain": {
+      "label": "本地网关，子域名链接",
+      "description": "该选项与上方类似，但专门面向本机上需要源隔离（origin isolation）以保证安全的 Web 应用。它不适用于与他人分享，且必须依赖 localhost 上的网关服务，而非直接使用原始 IP 地址。"
+    },
+    "publicPath": {
+      "label": "公共网关，路径链接",
+      "description": "该链接可供互联网上的任何人通过公共网关访问。由于缺乏源隔离（origin isolation）机制，请勿将其用于承载敏感数据的 Web 应用。"
+    },
+    "publicSubdomain": {
+      "label": "公共网关，子域名链接",
+      "description": "与上面的选项一样，但打开或托管需要源(origin)隔离的网页和应用程序是更安全的选择。"
+    }
+  },
   "retrievalDiagnosticService": {
     "title": "检索诊断服务",
     "description": "配置用于检索诊断的IPFS-检查服务的URL。此服务检查是否可以从您的节点和托管特定CID（内容标识符）的其他节点成功获取内容，帮助您解决共享问题。"

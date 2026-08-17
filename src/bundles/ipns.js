@@ -59,9 +59,18 @@ const ipnsBundle = {
     store.doFetchIpnsKeys()
   },
 
-  doPublishIpnsKey: (cid, key) => async ({ getIpfs, store }) => {
+  doPublishIpnsKey: (cid, key) => async ({ getIpfs, dispatch }) => {
     const ipfs = getIpfs()
-    await ipfs.name.publish(cid, { key })
+
+    try {
+      await ipfs.name.publish(cid, { key })
+    } catch (err) {
+      // Surface the RPC failure as a toast and re-throw so the publish modal
+      // leaves its progress state instead of hanging on a finished-looking bar.
+      console.error(`unexpected error publishing IPNS record for ${cid} (key: ${key})`, err)
+      dispatch({ type: 'IPNS_PUBLISH_FAILED', msgArgs: { keyName: key, errorMsg: err.toString() } })
+      throw err
+    }
 
     // Trigger background provide operation for the published CID
     dispatchAsyncProvide(cid, ipfs, 'IPNS')

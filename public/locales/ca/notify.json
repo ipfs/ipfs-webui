@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "",
   "ipfsPinSucceedReason": "",
   "ipfsUnpinSucceedReason": "",
+  "ipnsPublishFailReason": "",
   "ipfsIsBack": "El servei IPFS normal s'ha reprès. Gaudeix-ne!",
   "folderExists": "Ja existeix un item amb aquest nom. Siusplau escolliu-ne un altre.",
   "filesFetchFailed": "No s'han pogut obtenir aquests fitxers. Siusplau comproveu el path i torneu-ho a provar.",

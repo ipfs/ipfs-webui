@@ -7,6 +7,7 @@
   "individualFilesOnly": "Hanya tersedia untuk berkas individual",
   "noPDFSupport": "Peramban Anda tidak mendukung PDF. Silakan unduh PDF untuk melihatnya:",
   "downloadPDF": "Unduh PDF",
+  "openWithLocalGateway": "",
   "openWithPublicGateway": "Coba buka dengan <1>gerbang publik</1> Anda.",
   "openWithLocalAndPublicGateway": "Coba buka dengan <1>gerbang lokal</1> Anda atau <3>gerbang publik</3>.",
   "cantBePreviewed": "Maaf, berkas ini tidak dapat dipratinjau",
@@ -28,7 +29,12 @@
   },
   "shareModal": {
     "title": "Bagikan file",
-    "description": "Salin tautan di bawah ini dan bagikan dengan teman-teman Anda."
+    "description": "Salin tautan di bawah ini dan bagikan dengan teman-teman Anda.",
+    "descriptionLocal": "",
+    "descriptionNative": "",
+    "useLocalLink": "",
+    "useSubdomains": "",
+    "linkError": ""
   },
   "renameModal": {
     "titleFile": "Ganti nama berkas",

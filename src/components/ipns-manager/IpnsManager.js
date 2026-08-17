@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useRef, useMemo, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { sortByProperty } from '../../lib/sort.js'
+import { getLocalContentLink, toIpnsBase36 } from '../../lib/share-link.js'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 
 // Components
@@ -53,7 +54,7 @@ const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => {
   )
 }
 
-export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, availableGatewayUrl, ipnsKeys }) => {
+export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, localGatewayUrl, publicGateway, shareLinkType, ipnsKeys }) => {
   const [isGenerateKeyModalOpen, setGenerateKeyModalOpen] = useState(false)
   const showGenerateKeyModal = () => setGenerateKeyModalOpen(true)
   const hideGenerateKeyModal = () => setGenerateKeyModalOpen(false)
@@ -80,6 +81,19 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
   const sortedKeys = useMemo(() =>
     (ipnsKeys || []).sort(sortByProperty(sortSettings.sortBy, sortSettings.sortDirection === SortDirection.ASC ? 1 : -1)),
   [ipnsKeys, sortSettings.sortBy, sortSettings.sortDirection])
+
+  // Local gateway link honoring the Share Link type from Settings (subdomain
+  // origin when chosen), falling back to the public gateway, or no link at all.
+  const ipnsUrl = (id) => {
+    const ipnsName = toIpnsBase36(id)
+    return getLocalContentLink({
+      shareLinkType,
+      namespace: 'ipns',
+      pathId: ipnsName,
+      subdomainLabel: ipnsName,
+      localGatewayUrl
+    }) || (publicGateway ? `${publicGateway}/ipns/${ipnsName}` : '')
+  }
 
   return (
     <Fragment>
@@ -116,11 +130,13 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
                   width={width * 0.6}
                   className='charcoal monospace truncate f6 pl2'
                   flexShrink={1}
-                  cellRenderer={({ rowData }) => (
-                    rowData.published
-                      ? <a href={`${availableGatewayUrl}/ipns/${rowData.id}`} target='_blank' rel='noopener noreferrer' className='link blue'>{rowData.id}</a>
+                  cellRenderer={({ rowData }) => {
+                    if (!rowData.published) return rowData.id
+                    const url = ipnsUrl(rowData.id)
+                    return url
+                      ? <a href={url} target='_blank' rel='noopener noreferrer' className='link blue'>{rowData.id}</a>
                       : rowData.id
-                  )} />
+                  }} />
                 <Column
                   dataKey='options'
                   width={width * 0.1}
@@ -184,7 +200,9 @@ IpnsManager.defaultProps = {
 export default connect(
   'selectIpfsReady',
   'selectIpnsKeys',
-  'selectAvailableGatewayUrl',
+  'selectLocalGatewayUrl',
+  'selectPublicGateway',
+  'selectShareLinkType',
   'doFetchIpnsKeys',
   'doGenerateIpnsKey',
   'doRemoveIpnsKey',

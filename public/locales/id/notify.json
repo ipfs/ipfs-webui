@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "Tidak dapat menyetel penyematan di {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Berhasil disematkan di {serviceName}",
   "ipfsUnpinSucceedReason": "Berhasil melepas pin dari {serviceName}",
+  "ipnsPublishFailReason": "",
   "ipfsIsBack": "Layanan IPFS normal telah dilanjutkan. Menikmati!",
   "folderExists": "Item dengan nama itu sudah ada. Silakan pilih yang lain.",
   "filesFetchFailed": "Gagal mendapatkan berkas tersebut. Harap periksa jalur dan coba lagi.",

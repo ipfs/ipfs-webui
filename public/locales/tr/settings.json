@@ -23,6 +23,7 @@
     "translationProjectLink": "IPFS Çeviri Projesine Katılın"
   },
   "apiDescription": "",
+  "localGatewayDescription": "",
   "publicSubdomainGatewayDescription": "",
   "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {

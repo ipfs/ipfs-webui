@@ -7,6 +7,7 @@
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
   "noPDFSupport": "Votre navigateur ne prend pas en charge les PDF. Merci de télécharger le PDF pour le visualiser :",
   "downloadPDF": "Télécharger un PDF",
+  "openWithLocalGateway": "Essayez plutôt de l'ouvrir avec votre <1>passerelle locale</1>.",
   "openWithPublicGateway": "Essayer de l'ouvrir plutôt avec votre <1>passerelle publique</1>.",
   "openWithLocalAndPublicGateway": "Essayer de l'ouvrir plutôt avec votre <1>passerelle locale</1> ou votre <3>passerelle publique</3>.",
   "cantBePreviewed": "Désolé, ce fichier ne peut pas être prévisualisé",
@@ -28,7 +29,12 @@
   },
   "shareModal": {
     "title": "Partager des fichiers",
-    "description": "Copiez le lien ci-dessous et partagez-le avec vos amis."
+    "description": "Copiez le lien ci-dessous et partagez-le avec vos amis.",
+    "descriptionLocal": "Utilisez ce lien pour ouvrir dans les applications sur cette machine.",
+    "descriptionNative": "Cette adresse native IPFS s'ouvre dans les applications et navigateurs qui supportent IPFS, comme l'extension <1>IPFS Companion</1>.",
+    "useLocalLink": "Lien HTTP local pour les autres applications sur cette machine",
+    "useSubdomains": "Utilise les sous-domaines de localhost pour les applications web",
+    "linkError": "Echec de la création du lien. Vérifiez que votre nœud IPFS est en fonctionnement."
   },
   "renameModal": {
     "titleFile": "Renommer le fichier",

@@ -23,6 +23,7 @@
     "translationProjectLink": "IPFS翻訳プロジェクトに参加"
   },
   "apiDescription": "",
+  "localGatewayDescription": "",
   "publicSubdomainGatewayDescription": "",
   "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {

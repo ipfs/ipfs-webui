@@ -47,7 +47,10 @@ export default {
       cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC'
     },
     ipnsKeys,
-    publicGateway: 'gateway',
+    effectiveShareLinkType: 'public-path',
+    localGatewayUrl: 'http://127.0.0.1:8080',
+    publicGateway: 'https://ipfs.io',
+    publicSubdomainGateway: 'https://dweb.link',
     className: 'ma3',
     doFetchIpnsKeys: () => ipnsKeys,
     doUpdateExpectedPublishTime: (time) => action(`Update expected publish time: ${time}`),

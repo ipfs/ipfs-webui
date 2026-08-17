@@ -64,6 +64,9 @@ class Modals extends React.Component {
       files: []
     },
     link: '',
+    shareLinkType: '',
+    localLink: '',
+    subdomainLocalLink: '',
     command: 'ipfs --help'
   }
 
@@ -132,10 +135,23 @@ class Modals extends React.Component {
       case SHARE: {
         this.setState({
           link: t('generating'),
+          shareLinkType: '',
+          localLink: '',
+          subdomainLocalLink: '',
           readyToShow: true
         })
 
-        onShareLink(files).then(link => this.setState({ link }))
+        onShareLink(files)
+          .then(result => this.setState({
+            link: result.link,
+            shareLinkType: result.type,
+            localLink: result.localLink,
+            subdomainLocalLink: result.subdomainLocalLink
+          }))
+          .catch(err => {
+            console.error('Failed to generate share link:', err)
+            this.setState({ link: t('shareModal.linkError') })
+          })
         break
       }
       case RENAME: {
@@ -245,7 +261,7 @@ class Modals extends React.Component {
 
   render () {
     const { show, t } = this.props
-    const { readyToShow, link, rename, command } = this.state
+    const { readyToShow, link, shareLinkType, localLink, subdomainLocalLink, rename, command } = this.state
     return (
       <div>
         <Overlay show={show === NEW_FOLDER && readyToShow} onLeave={this.leave}>
@@ -259,6 +275,9 @@ class Modals extends React.Component {
           <ShareModal
             className='outline-0'
             link={link}
+            type={shareLinkType}
+            localLink={localLink}
+            subdomainLocalLink={subdomainLocalLink}
             onLeave={this.leave} />
         </Overlay>
 

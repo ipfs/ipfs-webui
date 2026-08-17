@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "{serviceName} servisinde sabitleme ayarlanamıyor: {errorMsg}",
   "ipfsPinSucceedReason": "",
   "ipfsUnpinSucceedReason": "",
+  "ipnsPublishFailReason": "",
   "ipfsIsBack": "Normal IPFS hizmeti devam etti. Tadını çıkarın!",
   "folderExists": "Bu isimde bir öğe zaten var. Lütfen diğerini seçin.",
   "filesFetchFailed": "Bu dosyalar alınamadı. Lütfen yolu kontrol edin ve tekrar deneyin.",

@@ -7,6 +7,7 @@
   "ipfsPinFailReason": "Impossible d'épingler via {serviceName} : {errorMsg}",
   "ipfsPinSucceedReason": "Épinglé avec succès à {serviceName}",
   "ipfsUnpinSucceedReason": "Désépinglé avec succès de {serviceName}",
+  "ipnsPublishFailReason": "Echec de la publication de l'IPNS sous la clé {keyName}: {errorMsg}",
   "ipfsIsBack": "Le service IPFS a repris normalement. Profitez !",
   "folderExists": "Un élément avec ce nom existe déjà. Merci d'en choisir un autre.",
   "filesFetchFailed": "Impossible d'obtenir ces fichiers. Merci de vérifier le chemin et de réessayer.",

@@ -32,7 +32,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, filesIsFetching, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
+  files, pins, filesPathInfo, filesIsFetching, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -219,10 +219,10 @@ const FilesPage = ({
         .filter(n => n)
         .map(file => ({
           ...file,
-          pinned: files?.pins?.map(p => p.toString())?.includes(file.cid.toString())
+          pinned: (pins || []).includes(file.cid.toString())
         }))
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    , [files?.content, files?.pins, selected])
+    , [files?.content, pins, selected])
 
     if (!files || files.type === 'file') return null
     // if file not found
@@ -251,7 +251,7 @@ const FilesPage = ({
     const commonProps = {
       updateSorting: doFilesUpdateSorting,
       files: files.content || [],
-      pins: files.pins || [],
+      pins: pins || [],
       remotePins: remotePins || [],
       pendingPins: pendingPins || [],
       failedPins: failedPins || [],
@@ -454,6 +454,7 @@ export default connect(
   'selectIpfsProvider',
   'selectIpfsConnected',
   'selectFiles',
+  'selectPins',
   'selectFilesIsFetching',
   'selectRemotePins',
   'selectPendingPins',

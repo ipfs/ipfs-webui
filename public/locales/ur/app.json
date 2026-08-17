@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": ""
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": ""
   },
@@ -87,6 +90,8 @@
     "pinStatus": "پن کی حالت",
     "publicKey": "عوامی کلید",
     "publicGateway": "",
+    "publicSubdomainGateway": "",
+    "localGateway": "",
     "rateIn": "میں شرح",
     "rateOut": "درجہ بندی",
     "repo": "ریپو",
