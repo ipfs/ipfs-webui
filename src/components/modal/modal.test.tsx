@@ -84,14 +84,13 @@ describe('Modal', () => {
     it('renders with default props', () => {
       const { container } = render(<ModalActions />)
       const actionsElement = container.firstChild as HTMLElement
-      expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2')
-      expect(actionsElement).toHaveStyle({ backgroundColor: '#f4f6f8' })
+      expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2', 'bg-snow')
     })
 
     it('renders with custom justify prop', () => {
       const { container } = render(<ModalActions justify="center" />)
       const actionsElement = container.firstChild as HTMLElement
-      expect(actionsElement).toHaveClass('flex', 'justify-center', 'pa2')
+      expect(actionsElement).toHaveClass('flex', 'justify-center', 'pa2', 'bg-snow')
     })
 
     it('renders with custom className', () => {
@@ -99,7 +98,7 @@ describe('Modal', () => {
       const { container } = render(<ModalActions className={customClass} />)
       const actionsElement = container.firstChild as HTMLElement
       expect(actionsElement).toHaveClass(customClass)
-      expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2')
+      expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2', 'bg-snow')
     })
 
     it('renders children correctly', () => {
@@ -121,8 +120,8 @@ describe('Modal', () => {
     it('applies default styling classes and background color', () => {
       const { container } = render(<ModalActions />)
       const actionsElement = container.firstChild as HTMLElement
-      expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2')
-      expect(actionsElement.className).toBe('flex justify-between pa2 ')
+      expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2', 'bg-snow')
+      expect(actionsElement.className).toBe('flex justify-between pa2 bg-snow ')
     })
   })
 

@@ -82,7 +82,7 @@ const File = ({
   const styles = { height: 55, overflow: 'visible' }
 
   if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
-    styles.backgroundColor = '#F0F6FA'
+    className += ' file-row-selected'
   } else if (translucent) {
     className += ' o-70'
   }
@@ -91,7 +91,8 @@ const File = ({
     styles.border = '1px dashed #9ad4db'
   } else {
     styles.border = '1px solid transparent'
-    styles.borderTop = '1px solid #eee'
+    // borderTop is omitted here — the b--light-gray class on the wrapper handles
+    // the row separator so the dark-mode CSS override in index.css can reach it
   }
 
   size = humanSize(size, { round: 0 })

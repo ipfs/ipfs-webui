@@ -17,7 +17,9 @@ import ComponentLoader from './loader/ComponentLoader.js'
 import Notify from './components/notify/Notify.js'
 import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
+import TopBarThemeToggle from './components/theme-selector/TopBarThemeToggle.js'
 import FilesExploreForm from './files/explore-form/files-explore-form.tsx'
+import { ThemeProvider } from './contexts/theme-context.js'
 
 export class App extends Component {
   static propTypes = {
@@ -62,18 +64,21 @@ export class App extends Component {
 
   render () {
     const { t, route: Page, ipfsReady, doFilesNavigateTo, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
-    return connectDropTarget(
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-      <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
+    return (
+      <ThemeProvider>
+        {connectDropTarget(
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+          <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
         { canDrop && isOver && <div className='h-100 top-0 right-0 fixed appOverlay' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
           <div className='flex-auto-l'>
-            <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
+            <div className='flex items-center ph3 ph4-l webui-header' style={{ WebkitAppRegion: 'drag', height: 75, paddingTop: '20px', paddingBottom: '15px' }}>
               <div className='joyride-app-explore' style={{ width: 560 }}>
                 <FilesExploreForm onBrowse={doFilesNavigateTo} />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
+                <TopBarThemeToggle />
                 {!url.startsWith('/diagnostics') && <TourHelper />}
                 <Connected className='joyride-app-status' />
               </div>
@@ -102,6 +107,8 @@ export class App extends Component {
 
         <Notify />
       </div>
+        )}
+      </ThemeProvider>
     )
   }
 }
