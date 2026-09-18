@@ -81,7 +81,7 @@ const StatusPage = ({
         <ReactJoyride
           run={toursEnabled}
           steps={statusTour.getSteps({ t, Trans })}
-          styles={statusTour.styles}
+          styles={statusTour.getStyles()}
           callback={handleJoyrideCallback}
           continuous
           scrollToFirstStep

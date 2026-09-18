@@ -3,8 +3,9 @@ import { withTranslation } from 'react-i18next'
 import { Title } from './Commons.js'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
+import { getChartColors } from '../lib/chart-colors.js'
 
-const CountryChart = ({ t, peerLocations, className }) => {
+const CountryChart = ({ t, peerLocations, effectiveTheme, className }) => {
   const countryLabels = {}
   const countsByCountry = {}
 
@@ -33,9 +34,10 @@ const CountryChart = ({ t, peerLocations, className }) => {
     data = data.concat(100 - data.reduce((total, p) => total + p))
   }
 
+  const chartColors = getChartColors(effectiveTheme)
   const datasets = [{
     data,
-    backgroundColor: ['#69c4cd', '#f39031', '#ea5037', '#3e9096'],
+    backgroundColor: chartColors.countries,
     label: 'Peer Countries'
   }]
 
@@ -84,5 +86,6 @@ const CountryChart = ({ t, peerLocations, className }) => {
 
 export default connect(
   'selectPeerLocations',
+  'selectEffectiveTheme',
   withTranslation('status')(CountryChart)
 )

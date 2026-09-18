@@ -70,7 +70,7 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
         )}
 
         {/* Cumulative stats */}
-        <div className='mt3 pt3 bt b--black-10'>
+        <div className='mt3 pt3 bt' style={{ borderColor: 'var(--theme-border-primary)' }}>
           <MetricRow
             label={t('dhtProvide.operations.totalCidsProvided')}
             value={formatCount(sweep.operations?.past?.keys_provided)}

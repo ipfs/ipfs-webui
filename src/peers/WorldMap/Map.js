@@ -4,7 +4,7 @@ import ReactFauxDOM from 'react-faux-dom'
 import worldData from './world.json'
 
 // Earth! It's complicated, so try not to re-render so much
-const Map = ({ width, height, path }) => {
+const Map = ({ width, height, path, dotColor = '#AAA', strokeColor = '#DDD' }) => {
   // https://github.com/d3/d3-geo/blob/master/README.md#geoGraticule
   const graticule = d3.geoGraticule()
 
@@ -25,8 +25,8 @@ const Map = ({ width, height, path }) => {
     .attr('cx', 3)
     .attr('cy', 3)
     .attr('r', 1)
-    .attr('fill', '#AAA')
-    .attr('stroke', '#DDD')
+    .attr('fill', dotColor)
+    .attr('stroke', strokeColor)
 
   el.append('path')
     .datum(graticule)
