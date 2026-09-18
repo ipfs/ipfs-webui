@@ -17,7 +17,7 @@ import { cliCmdKeys } from '../../bundles/files/consts.js'
 const AddButton = withTranslation('app')(
   ({ t, onClick }) => (
     <Button id='import-button' bg='bg-navy' color='white' className='f6 flex justify-center items-center' minWidth='100px' onClick={onClick}>
-      <span><span className='aqua'>+</span> {t('actions.import')}</span>
+      <span><span className='aqua'>+</span> {t('actions.add')}</span>
     </Button>
   )
 )
