@@ -94,7 +94,7 @@ export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, eff
               style={{ color: `rgba(128, 133, 145, ${copied ? 0.6 : 1})` }}
               type='text' />
 
-            <div className='absolute h2 pl2 flex items-center' style={{ right: '4px', top: '50%', transform: 'translateY(-50%)', background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.35), #ffffff 10%, #ffffff 100%)' }} >
+            <div className='absolute h2 pl2 flex items-center publish-modal-gradient' style={{ right: '4px', top: '50%', transform: 'translateY(-50%)' }} >
               { copied
                 ? <>
                   <span className="charcoal-muted strong f5">{t('publishModal.linkCopied')}</span>

@@ -24,6 +24,23 @@
     -->
     <title>WebUI | IPFS</title>
     <link rel="canonical" href="https://webui.ipfs.io/">
+    <!--
+      Anti-FOUC (Flash of Unstyled Content) script: must run synchronously before
+      the React bundle so dark-mode users never see a white flash on page load.
+      Reads localStorage and matchMedia, then sets data-theme on <html> immediately.
+      (lidel review: "a tiny script in public/index.html, ahead of the bundle")
+    -->
+    <script>
+      (function () {
+        var allowed = ['auto', 'light', 'dark'];
+        var stored;
+        try { stored = localStorage.getItem('ipfs-webui-theme'); } catch (_) {}
+        var theme = allowed.indexOf(stored) !== -1 ? stored : 'auto';
+        var isDark = theme === 'dark' ||
+          (theme === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      })();
+    </script>
   </head>
   <body>
     <noscript>

@@ -42,7 +42,7 @@ const IsNotConnected = () => {
         { !isSameOrigin && (
           <div>
             <Trans i18nKey='notConnected.paragraph3' t={t}>
-              <li className='mb3 mt4'>Is your Kubo RPC API configured to allow <a className='link blue' href='https://github.com/ipfs/ipfs-webui#configure-kubo-rpc-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
+              <li className='mb3'>Is your Kubo RPC API configured to allow <a className='link blue' href='https://github.com/ipfs/ipfs-webui#configure-kubo-rpc-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
             </Trans>
             <div className='br1 overflow-hidden'>
               <div className='f7 mb0 sans-serif charcoal pv1 pl2 bg-black-20 flex items-center overflow-x-auto'>
@@ -80,7 +80,7 @@ const IsNotConnected = () => {
           </div>
         )}
         <Trans i18nKey='notConnected.paragraph4' t={t}>
-          <li className='mt4 mb3'>Is your Kubo RPC on a port other than 5001? If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom RPC API address</a>, enter it here.</li>
+          <li className='mb3'>Is your Kubo RPC on a port other than 5001? If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom RPC API address</a>, enter it here.</li>
         </Trans>
         <ApiAddressForm />
       </ol>

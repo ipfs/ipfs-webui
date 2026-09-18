@@ -101,7 +101,7 @@ const DiagnosticsContent: React.FC = () => {
   return (
     <div>
       {/* Tab Navigation */}
-      <div className='mb4 pb2' style={{ borderBottom: '1px solid #e1e5eb' }}>
+      <div className='mb4 pb2' style={{ borderBottom: '1px solid var(--border-color, #e1e5eb)' }}>
         <nav className='flex items-center'>
           <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
           <TabButton tabKey='retrieval' label={t('tabs.retrieval-check')} active={activeTab === 'retrieval'} />
