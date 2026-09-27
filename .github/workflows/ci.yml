@@ -65,7 +65,7 @@ jobs:
           ipfs-add-options: '--cid-version 1'
           github-token: ${{ github.token }}
 
-      - uses: ipfs/download-ipfs-distribution-action@v1
+      - uses: ipfs/download-ipfs-distribution-action@v2
         if: github.repository == 'ipfs/ipfs-webui' && github.ref == 'refs/heads/main'
         with:
           name: ipfs-cluster-ctl
