@@ -49,6 +49,12 @@ const pinningServiceTemplates: PinningServiceTemplate[] = [
     iconPath: 'ipfs/bafkreie4mg2rmoe6fzct4rpwd2d4nuok3yx2mew567nu3s5bfnnmlb65ei?filename=4everland-logo.svg',
     apiEndpoint: 'https://api.4everland.dev',
     visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
+  },
+  {
+    name: 'Octopin',
+    iconPath: 'ipfs/bafkreian2nsjmet2qvwhdqv34bjvpyeak4cihcaawkqnwg56owhfnu2qda?filename=octopin.svg',
+    apiEndpoint: 'https://api.octopin.app/psa',
+    visitServiceUrl: 'https://octopin.app/docs/pinning-api'
   }
 ].map<SortablePinningServiceTemplate>((service) => {
   let complianceReportUrl: string | undefined
