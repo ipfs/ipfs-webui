@@ -82,7 +82,7 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
     <div className="flex flex-column">
       <div className={`relative ${className}`}>
         <div className='mb1 flex flex-column items-center'>
-          <div className="relative no-events" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
+          <div className="relative no-events world-map" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
             <GeoPath width={width} height={height}>
               { ({ path }) => (
                 <MapPins width={width} height={height} path={path} handleMouseEnter={ handleMapPinMouseEnter } handleMouseLeave= { handleMapPinMouseLeave } />

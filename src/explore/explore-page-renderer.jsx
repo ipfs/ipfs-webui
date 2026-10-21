@@ -22,11 +22,17 @@ const ExplorePageRenderer = ({ routeInfo }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url])
 
-  if (pattern === '/explore') {
-    return <LoadableStartExploringPage />
-  }
-
-  return <LoadableExplorePage />
+  return (
+    // NOTE: ipld-explorer-components does not ship its own dark theme yet, but the
+    // global Tachyons/IPFS-CSS dark overrides in src/index.css cover all classes
+    // used by the library sufficiently. If theming regressions appear here after an
+    // ipld-explorer-components upgrade, targeted overrides can be added to the
+    // .explore-page-container block in index.css.
+    // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/1702
+    <div className='explore-page-container'>
+      {pattern === '/explore' ? <LoadableStartExploringPage /> : <LoadableExplorePage />}
+    </div>
+  )
 }
 
 export default connect(
