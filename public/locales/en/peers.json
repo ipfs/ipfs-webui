@@ -11,6 +11,7 @@
   "connectionDirectionInbound": "inbound",
   "connectionDirectionOutbound": "outbound",
   "copyFeedback": "Copied!",
+  "filterPeers": "Filter peers",
   "tour": {
     "step1": {
       "title": "Peers page",
