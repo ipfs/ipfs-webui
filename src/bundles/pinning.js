@@ -111,11 +111,13 @@ const resumePendingPins = (store) => {
     if (isReady) {
       clearTimeout(interval)
       const pendingPins = store.selectPendingPins()
+      if (!pendingPins.length) return
 
-      pendingPins.forEach(pin => {
-        const [service, cid] = pin.split(':')
-        store.doSetPinning({ cid: CID.asCID(cid) ?? CID.parse(cid) }, [service], false)
-      })
+      // Pending pins were already submitted to the service, so only refresh
+      // their status. Adding them again would create a duplicate pin request
+      // without a name, since only `service:cid` is persisted.
+      // https://github.com/ipfs/ipfs-webui/issues/2067
+      store.doFetchRemotePins(pendingPins.map(id => ({ cid: cacheId2Cid(id) })), true)
     }
   }, 1000)
 }
