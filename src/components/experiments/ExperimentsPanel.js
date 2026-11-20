@@ -18,7 +18,8 @@ const Experiments = ({ doExpToggleAction, experiments, t }) => {
             return (
               <div
                 key={key}
-                className='pa3 mr3 mb3 mw6 br3 bg-white dib f6 ba b1 b--light-gray'
+                className='pa3 mr3 mb3 mw6 br3 dib f6 ba b1 b--light-gray'
+                style={{ background: 'var(--theme-bg-primary)' }}
               >
                 <h3>{tkey('title', key)}</h3>
                 <p className='charcoal'>{tkey('description', key)}</p>

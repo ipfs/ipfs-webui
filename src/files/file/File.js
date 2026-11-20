@@ -82,7 +82,7 @@ const File = ({
   const styles = { height: 55, overflow: 'visible' }
 
   if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
-    styles.backgroundColor = '#F0F6FA'
+    styles.backgroundColor = 'var(--theme-bg-tertiary)'
   } else if (translucent) {
     className += ' o-70'
   }
@@ -91,7 +91,7 @@ const File = ({
     styles.border = '1px dashed #9ad4db'
   } else {
     styles.border = '1px solid transparent'
-    styles.borderTop = '1px solid #eee'
+    styles.borderTop = '1px solid var(--theme-border-primary)'
   }
 
   size = humanSize(size, { round: 0 })
@@ -117,10 +117,10 @@ const File = ({
           </div>
           <div style={{ width: 'calc(100% - 3.25rem)' }}>
             <Tooltip text={name}>
-              <div className='f6 truncate charcoal'>{name}</div>
+              <div className='f6 truncate' style={{ color: 'var(--theme-text-primary)' }}>{name}</div>
             </Tooltip>
             <Tooltip text={hash}>
-              <div className='f7 mt1 gray truncate monospace'>{hash}</div>
+              <div className='f7 mt1 truncate monospace' style={{ color: 'var(--theme-text-secondary)' }}>{hash}</div>
             </Tooltip>
           </div>
         </button>
@@ -130,11 +130,11 @@ const File = ({
             <PinIcon isFailedPin={isFailedPin} isPendingPin={isPendingPin} isRemotePin={isRemotePin} pinned={pinned} />
           </button>
         </div>
-        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
+        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr w-10 mw4' style={{ color: 'var(--theme-text-secondary)' }}>
           {size}
         </div>
         <button ref={dotsWrapper} className='ph2 db button-inside-focus file-context-menu' style={{ width: '2.5rem' }} onClick={handleCtxLeftClick} aria-label={ t('checkboxLabel', { name })} >
-          <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all'/>
+          <GlyphDots className='pointer transition-all' style={{ fill: 'var(--theme-text-secondary)' }}/>
         </button>
       </div>
     </div>

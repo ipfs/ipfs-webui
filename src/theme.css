@@ -1,0 +1,301 @@
+/* ===================================
+   Theme CSS Variables - Optimized
+   =================================== */
+
+:root {
+  /* BACKGROUNDS */
+  --theme-bg-primary: #ffffff;
+  --theme-bg-secondary: #fbfbfb;
+  --theme-bg-tertiary: #F0F6FA;
+  --theme-bg-inverted: #fff;
+  --theme-bg-hover: #E8E9ED;
+  --theme-bg-modal: #ffffff;
+  --theme-bg-overlay: rgba(0, 0, 0, 0.3);
+  --theme-bg-selected: #F0F6FA;
+  --theme-bg-selectedActions: #F0F6FA;
+  --theme-bg-importStatus: #F0F6FA;
+  --theme-bg-importStatusError: #fff5f5;
+  
+  /* TEXT */
+  --theme-text-primary: #34373f;
+  --theme-text-secondary: #7f8491;
+  --theme-text-muted: #b7bbc8;
+  --theme-text-link: #117eb3;
+  --theme-text-placeholder: #CAD3D8;
+  --theme-text-darkGray: #59595A;
+  --theme-text-selectedActionsCount: #F9FAFB;
+  --theme-text-selectedActionsSize: #A4BFCC;
+  --theme-text-importStatusError: #c53030;
+  
+  /* BRAND */
+  --theme-brand-aqua: #69c4cd;
+  
+  /* BORDERS */
+  --theme-border-primary: #d9dbe2;
+  --theme-border-black20: rgba(0, 0, 0, 0.2);
+  --theme-border-selectedActions: #083041;
+  --theme-border-importStatusError: #feb2b2;
+  
+  /* BUTTONS */
+  --theme-button-gray: #b7bbc8;
+  --theme-button-teal: #378085;
+  --theme-button-red: #ea5037;
+  --theme-button-charcoal: #34373f;
+  --theme-button-green: #0cb892;
+  --theme-button-selectedActionsCount: #69C4CD;
+  
+  /* NAVBAR */
+  --theme-navbar-bg: #0b3a53;
+  --theme-navbar-hover: #0d4461;
+  --theme-navbar-active-border: rgba(201, 210, 215, 0.4);
+  
+  /* SHADOWS */
+  --theme-shadow-card: 0px 3px 6px 0 rgba(205, 207, 214, 0.35);
+}
+
+/* Dark theme */
+[data-theme="dark"],
+.theme-dark {
+  /* BACKGROUNDS */
+  --theme-bg-primary: #0d0d0d;
+  --theme-bg-secondary: #141516;
+  --theme-bg-tertiary: #121212;
+  --theme-bg-inverted: #000000;
+
+
+  /* use for testing  */
+/*   
+  --theme-bg-primary: #c5c331;
+  --theme-bg-secondary: #e41717;
+  --theme-bg-tertiary: #39e02a;
+  --theme-bg-inverted: #000000;
+ */
+
+  --theme-bg-modal: #1a1a1a;
+  --theme-bg-overlay: rgba(0, 0, 0, 0.9);
+  --theme-bg-selected: #121212;
+  --theme-bg-selectedActions: #121212;
+  --theme-bg-importStatus: #121212;
+  --theme-bg-importStatusError: #2a1212;
+  
+  /* TEXT */
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #9ad4db;
+  --theme-text-muted: #69c4cd;
+  --theme-text-link: #69c4cd;
+  --theme-text-placeholder: #7f8491;
+  --theme-text-darkGray: #d9dbe2;
+  --theme-text-selectedActionsCount: #ffffff;
+  --theme-text-selectedActionsSize: #9ad4db;
+  --theme-text-importStatusError: #fc8181;
+  
+  /* BRAND */
+  --theme-brand-aqua: #69c4cd;
+  
+  /* BORDERS */
+  --theme-border-primary: #1f3540;
+  --theme-border-black20: rgba(105, 196, 205, 0.2);
+  --theme-border-selectedActions: #1f5a60;
+  --theme-border-importStatusError: #6b1f1f;
+  
+  /* BUTTONS */
+  --theme-button-gray: #7f8491;
+  --theme-button-teal: #69c4cd;
+  --theme-button-red: #f36149;
+  --theme-button-charcoal: #ffffff;
+  --theme-button-green: #0aca9f;
+  --theme-button-selectedActionsCount: #69c4cd;
+  
+  /* NAVBAR */
+  --theme-navbar-bg: #2B7980;
+  --theme-navbar-hover: #358a92;
+  --theme-navbar-active-border: rgba(0, 0, 0, 0.3);
+  
+  /* SHADOWS */
+  --theme-shadow-card: 0px 3px 6px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Apply theme to body */
+body {
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ============================================
+   TACHYONS OVERRIDES
+   ============================================ */
+
+/* Backgrounds */
+.bg-white { background-color: var(--theme-bg-primary) !important; }
+.bg-near-white { background-color: var(--theme-bg-secondary) !important; }
+.bg-navy { background-color: var(--theme-navbar-bg) !important; }
+.bg-gray { background-color: var(--theme-button-gray) !important; }
+.bg-teal { background-color: var(--theme-button-teal) !important; }
+.bg-red { background-color: var(--theme-button-red) !important; }
+.bg-charcoal { background-color: var(--theme-button-charcoal) !important; }
+.bg-green { background-color: var(--theme-button-green) !important; }
+
+/* Hover states */
+.hover-bg-near-white:hover { background-color: var(--theme-bg-hover) !important; }
+.hover-bg-white:hover { background-color: var(--theme-bg-primary) !important; }
+
+/* Navbar specific */
+.bg-white-10 { background-color: var(--theme-navbar-hover) !important; }
+.hover-bg-white-10:hover { background-color: var(--theme-navbar-hover) !important; }
+
+.bg-white-70 { background-color: rgba(255, 255, 255, 0.7) !important; }
+[data-theme="dark"] .bg-white-70,
+.theme-dark .bg-white-70 { background-color: rgba(13, 13, 13, 0.95) !important; }
+
+.bg-white-80 { background-color: rgba(255, 255, 255, 0.8) !important; }
+[data-theme="dark"] .bg-white-80,
+.theme-dark .bg-white-80 { background-color: rgba(13, 13, 13, 0.98) !important; }
+
+/* Borders */
+.b--light-gray { border-color: var(--theme-border-primary) !important; }
+.b--black-20 { border-color: var(--theme-border-black20) !important; }
+.ba { border-color: var(--theme-border-primary); }
+
+/* Text colors */
+.link, .blue { color: var(--theme-text-link) !important; }
+
+/* Hover text colors */
+.hover-black:hover { color: var(--theme-text-primary) !important; }
+
+/* Dropdown menus - force background and text colors */
+div[class*="DropdownMenu"],
+div[class*="Dropdown__menu"],
+[class*="DropdownMenu"],
+[class*="Dropdown__menu"],
+.DropdownMenu,
+.Dropdown__menu {
+  background: var(--theme-bg-modal) !important;
+  color: var(--theme-text-primary) !important;
+  border-color: var(--theme-border-primary) !important;
+}
+
+div[class*="DropdownMenu"] > div,
+div[class*="Dropdown__menu"] > div {
+  background: var(--theme-bg-modal) !important;
+  color: var(--theme-text-primary) !important;
+}
+
+/* Dropdown buttons - reset background and add hover */
+div[class*="DropdownMenu"] button,
+div[class*="Dropdown__menu"] button,
+div[class*="DropdownMenu"] div button,
+div[class*="Dropdown__menu"] div button {
+  background: transparent !important;
+  transition: background-color 0.15s ease !important;
+}
+
+div[class*="DropdownMenu"] button:hover,
+div[class*="Dropdown__menu"] button:hover,
+div[class*="DropdownMenu"] div button:hover,
+div[class*="Dropdown__menu"] div button:hover {
+  background: var(--theme-bg-tertiary) !important;
+}
+
+/* Dropdown option divs that contain buttons */
+div[class*="DropdownMenu"] > div > div,
+div[class*="Dropdown__menu"] > div > div {
+  background: transparent !important;
+}
+
+div[class*="DropdownMenu"] > div > div:hover,
+div[class*="Dropdown__menu"] > div > div:hover {
+  background: var(--theme-bg-tertiary) !important;
+}
+
+/* Dropdown arrow */
+div[class*="arrow"],
+[class*="Dropdown__arrow"],
+div[class*="Arrow"],
+[class*="Dropdown__Arrow"] {
+  background: var(--theme-bg-modal) !important;
+  border-color: var(--theme-border-primary) !important;
+}
+
+/* ============================================
+   COMPONENT-SPECIFIC STYLES
+   ============================================ */
+
+/* Inputs */
+input:not([type="hidden"]), textarea, select {
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  border-color: var(--theme-border-primary);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--theme-brand-aqua);
+  outline-color: var(--theme-brand-aqua);
+}
+
+::placeholder { color: var(--theme-text-placeholder); }
+
+/* Links */
+a { color: var(--theme-text-link); }
+a:hover { color: var(--theme-brand-aqua); }
+
+/* Code */
+code, pre {
+  background-color: var(--theme-bg-secondary);
+  color: var(--theme-text-primary);
+}
+
+/* Modals */
+.modal-overlay { background-color: var(--theme-bg-overlay); }
+
+/* Cards */
+.card {
+  background-color: var(--theme-bg-primary);
+  border-color: var(--theme-border-primary);
+}
+
+/* Tables */
+table { color: var(--theme-text-primary); }
+thead { background-color: var(--theme-bg-secondary); }
+tbody tr:hover { background-color: var(--theme-bg-hover); }
+
+/* Buttons */
+button.hoverable-button:hover { background: var(--theme-bg-hover); }
+button:not(.default):focus-visible {
+  outline: 1px solid var(--theme-border-primary);
+  outline-offset: -1px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--theme-bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--theme-border-primary); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--theme-text-muted); }
+
+/* Transitions */
+.transition-opacity { transition: opacity 0.2s ease; }
+.hover-o-70:hover { opacity: 0.7; }
+.hover-o-50:hover { opacity: 0.5; }
+
+/* ============================================
+   DIAGNOSTICS TABS
+   ============================================ */
+
+.diagnostics-tab {
+  transition: all 0.2s ease;
+}
+
+.diagnostics-tab-active {
+  background-color: var(--theme-button-teal) !important;
+  color: white !important;
+}
+
+.diagnostics-tab-inactive {
+  background-color: transparent !important;
+  color: var(--theme-text-secondary) !important;
+}
+
+.diagnostics-tab-inactive:hover {
+  background-color: var(--theme-bg-tertiary) !important;
+  color: var(--theme-text-primary) !important;
+}

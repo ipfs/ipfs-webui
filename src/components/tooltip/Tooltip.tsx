@@ -62,9 +62,11 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, ...props }) => {
           left: '50%',
           transform: 'translate(-50%, 100%)',
           wordWrap: 'break-word',
-          width: '100%'
+          width: '100%',
+          backgroundColor: 'var(--theme-bg-modal)',
+          color: 'var(--theme-text-primary)'
         }}
-        className={`white z-max bg-navy-muted br2 pa1 f6 absolute ${tooltipDisplayClass}`}
+        className={`z-max br2 pa1 f6 absolute ${tooltipDisplayClass}`}
       >
         <span
           style={{
@@ -73,9 +75,10 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, ...props }) => {
             transform: 'translate(-50%, -50%) rotate(45deg)',
             borderRadius: '2px 0px 0px',
             left: '50%',
-            zIndex: -1
+            zIndex: -1,
+            backgroundColor: 'var(--theme-bg-modal)'
           }}
-          className='db bg-navy-muted absolute'
+          className='db absolute'
         />
         {text}
       </div>

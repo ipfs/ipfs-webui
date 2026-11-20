@@ -29,7 +29,9 @@ const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, for
       zIndex: 1000,
       wordWrap: 'break-word' as const,
       width: 'max-content' as const,
-      maxWidth: '200px'
+      maxWidth: '200px',
+      backgroundColor: 'var(--theme-bg-modal)',
+      color: 'var(--theme-text-primary)'
     }
 
     switch (position) {
@@ -126,9 +128,9 @@ const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, for
       </div>
       <div
         style={tooltipStyles}
-        className={`white z-max bg-navy-muted br2 pv2 ph3 f6 lh-copy fw5 absolute sans-serif noselect ttn ${tooltipDisplayClass}`}
+        className={`z-max br2 pv2 ph3 f6 lh-copy fw5 absolute sans-serif noselect ttn ${tooltipDisplayClass}`}
       >
-        <div className='bg-navy-muted db bg-navy-muted absolute' style={arrowStyles} />
+        <div className='db absolute' style={{ ...arrowStyles, backgroundColor: 'var(--theme-bg-modal)' }} />
         {text}
       </div>
     </div>
