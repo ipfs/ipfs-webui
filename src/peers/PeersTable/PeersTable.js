@@ -130,7 +130,7 @@ const FilterInput = ({ filter, setFilter, t, filteredCount }) => {
         id='peers-filter-input'
         className='input-reset ba b--black-20 pa2 mb2 db w-100'
         type='text'
-        placeholder='Filter peers'
+        placeholder={t('filterPeers')}
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
         onKeyDown={handleKeyDown}
