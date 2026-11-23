@@ -160,9 +160,8 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
           onClick={() => setExpanded(!expanded)}
           onKeyPress={handleExpandByKeyboard}
           role="button"
-          className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between"
+          className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between bg-snow"
           aria-expanded={expanded}
-          style={{ background: '#F0F6FA' }}
         >
           <span>
             { filesPending.length

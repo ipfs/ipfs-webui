@@ -16,3 +16,23 @@
     from { transform: translateY(100%) }
     to { transform: translateY(0%) }
 }
+
+/* Themed action bar */
+.selected-actions-bar {
+    background: var(--action-bar-bg);
+    border-color: var(--action-bar-border);
+    color: var(--action-bar-text);
+}
+
+.selected-actions-text {
+    color: var(--action-bar-text);
+}
+
+.selected-actions-muted {
+    color: var(--action-bar-muted);
+}
+
+/* SVG icons in the action bar — fill follows the muted variable */
+.selected-actions-icon {
+    fill: var(--action-bar-muted);
+}

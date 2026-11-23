@@ -56,6 +56,7 @@ const ContextMenu = ({ className, children, target, visible, arrowAlign, arrowMa
           open={ visible }
           className='sans-serif br2 charcoal'
           boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
+          background='var(--element-bg)'
           width='auto'
           arrowAlign={arrowAlign || 'center'}
           arrowMarginRight={`${arrowMarginRight}px`}
