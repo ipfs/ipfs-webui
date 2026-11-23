@@ -118,10 +118,12 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
 const PeersCount = connect('selectPeers', ({ peers }) => peers ? peers.length : 0)
 
 const GeoPath = ({ width, height, children }) => {
-  // https://github.com/d3/d3-geo/blob/master/README.md#geoEquirectangular
+  // https://github.com/d3/d3-geo/blob/master/README.md#geoEqualEarth
+  // Fit by height and center, matching how StaticMap.svg is rendered
+  // (background-size: auto 100%, centered), so pins land on the right spot.
   const path = useMemo(() => {
-    const projection = d3.geoEquirectangular()
-      .scale(height / Math.PI)
+    const projection = d3.geoEqualEarth()
+      .fitHeight(height, { type: 'Sphere' })
       .translate([width / 2, height / 2])
       .precision(0.1)
     // https://github.com/d3/d3-geo/blob/master/README.md#paths
