@@ -79,13 +79,19 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
     <div className="relative" ref={dropdownRef}>
       <button
         ref={buttonRef}
-        className="flex items-center justify-between pa2 bg-white ba b--light-gray br2 pointer hover-bg-near-white"
-        style={{ minWidth: '140px' }}
+        className="flex items-center justify-between pa2 ba br2 pointer"
+        style={{
+          minWidth: '140px',
+          background: 'var(--theme-bg-primary)',
+          borderColor: 'var(--theme-border-primary)'
+        }}
         aria-label={t('sortFiles')}
         onClick={() => setIsOpen(!isOpen)}
+        onMouseEnter={(e) => { e.target.style.backgroundColor = 'var(--theme-bg-tertiary)' }}
+        onMouseLeave={(e) => { e.target.style.backgroundColor = 'var(--theme-bg-primary)' }}
       >
-        <span className="f6 charcoal truncate">{getCurrentLabel()}</span>
-        <span className="ml2 f6 gray">
+        <span className="f6 truncate" style={{ color: 'var(--theme-text-primary)' }}>{getCurrentLabel()}</span>
+        <span className="ml2 f6" style={{ color: 'var(--theme-text-secondary)' }}>
           {isOpen ? '▲' : '▼'}
         </span>
       </button>
@@ -93,7 +99,8 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
       {isOpen && (
         <DropdownMenu
           open={isOpen}
-          className="sans-serif br2 charcoal"
+          className="sans-serif br2"
+          background="var(--theme-bg-inverted)"
           boxShadow="rgba(105, 196, 205, 0.5) 0px 1px 10px 0px"
           width={200}
           arrowAlign="left"
@@ -103,20 +110,23 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
           translateY="5px"
           onDismiss={() => setIsOpen(false)}
         >
-          <div className="flex flex-column" role="menu">
-            {sortOptions.map((option, index) => (
+          <div className="flex flex-column" role="menu" style={{ color: 'var(--theme-text-primary)' }}>
+            {sortOptions.map((option) => (
               <button
                 key={`${option.value}-${option.asc}`}
                 role="menuitem"
-                className={`bg-animate hover-bg-near-white pa3 pointer flex items-center ${
+                className={`pa3 pointer flex items-center ${
                   currentSort.by === option.value &&
                   (option.value === sorts.BY_ORIGINAL || currentSort.asc === option.asc)
-                    ? 'bg-near-white fw5'
+                    ? 'fw5'
                     : ''
                 }`}
                 onClick={() => handleSortChange(option.value, option.asc)}
+                style={{ transition: 'background-color 0.15s ease' }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--theme-bg-tertiary)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
               >
-                <span className="f6 charcoal">{option.label}</span>
+                <span className="f6" style={{ color: 'var(--theme-text-primary)' }}>{option.label}</span>
               </button>
             ))}
           </div>

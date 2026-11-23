@@ -3,6 +3,7 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Speedometer from './Speedometer.js'
 import { Title } from './Commons.js'
+import { getChartColors } from '../lib/chart-colors.js'
 
 class NetworkTraffic extends React.Component {
   state = {
@@ -33,8 +34,9 @@ class NetworkTraffic extends React.Component {
   }
 
   render () {
-    const { t } = this.props
+    const { t, effectiveTheme } = this.props
     const { downFilled, upFilled, commonTotal } = this.state
+    const chartColors = getChartColors(effectiveTheme)
 
     return (
       <div>
@@ -43,17 +45,19 @@ class NetworkTraffic extends React.Component {
           <div className='mh2 mv3 mt0-l'>
             <Speedometer
               title={t('app:terms.downSpeed')}
-              color='#69c4cd'
+              color={chartColors.speedometer.in}
               filled={downFilled}
               total={commonTotal}
+              effectiveTheme={effectiveTheme}
             />
           </div>
           <div className='mh2 mt3 mt0-l'>
             <Speedometer
               title={t('app:terms.upSpeed')}
-              color='#f39021'
+              color={chartColors.speedometer.out}
               filled={upFilled}
               total={commonTotal}
+              effectiveTheme={effectiveTheme}
             />
           </div>
         </div>
@@ -64,5 +68,6 @@ class NetworkTraffic extends React.Component {
 
 export default connect(
   'selectNodeBandwidth',
+  'selectEffectiveTheme',
   withTranslation('status')(NetworkTraffic)
 )

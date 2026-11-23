@@ -16,25 +16,25 @@ import Cube from '../../icons/StrokeCube.js'
  */
 export default function FileIcon ({ name, type, style = { width: 36 }, cls = '' }) {
   if (type === 'directory') {
-    return <Folder className={`fill-aqua ${cls}`} style={style} />
+    return <Folder className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
   }
 
   if (type === 'unknown') {
-    return <Cube className={`fill-aqua ${cls}`} style={style} />
+    return <Cube className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
   }
 
   switch (typeFromExt(name)) {
     case 'audio':
-      return <DocMusic className={`fill-aqua ${cls}`} style={style} />
+      return <DocMusic className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
     case 'calc':
-      return <DocCalc className={`fill-aqua ${cls}`} style={style} />
+      return <DocCalc className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
     case 'video':
-      return <DocMovie className={`fill-aqua ${cls}`} style={style} />
+      return <DocMovie className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
     case 'text':
-      return <DocText className={`fill-aqua ${cls}`} style={style} />
+      return <DocText className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
     case 'image':
-      return <DocPicture className={`fill-aqua ${cls}`} style={style} />
+      return <DocPicture className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
     default:
-      return <Doc className={`fill-aqua ${cls}`} style={style} />
+      return <Doc className={cls} style={{ ...style, fill: 'var(--theme-brand-aqua)' }} />
   }
 }

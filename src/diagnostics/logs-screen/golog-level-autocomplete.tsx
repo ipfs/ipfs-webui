@@ -388,23 +388,36 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         onBlur={handleBlur}
         disabled={disabled}
         placeholder={placeholder}
-        className={`input-reset ba pa2 bg-light-gray f6 w-100 code ${errorMessage ? 'b--red-muted focus-outline-red' : 'b--black-20'}`}
+        className={`input-reset ba pa2 f6 w-100 code ${errorMessage ? 'b--red-muted focus-outline-red' : ''}`}
         style={{
           overflowX: 'auto',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          background: 'var(--theme-bg-secondary)',
+          borderColor: errorMessage ? undefined : 'var(--theme-border-primary)',
+          color: 'var(--theme-text-primary)'
         }}
       />
 
       {isOpen && suggestions.length > 0 && (
         <div
           ref={dropdownRef}
-          className="absolute top-100 left-0 right-0 bg-white ba b--black-20 shadow-2 z-999 max-h5 overflow-auto"
-          style={{ maxHeight: '200px' }}
+          className="absolute top-100 left-0 right-0 ba shadow-2 z-999 max-h5 overflow-auto"
+          style={{
+            maxHeight: '200px',
+            background: 'var(--theme-bg-modal)',
+            borderColor: 'var(--theme-border-primary)'
+          }}
         >
           {suggestions.map((suggestion, index) => (
             <div
               key={`${suggestion.text}-${index}`}
-              className={`z-999 pa2 pointer hover-bg-light-gray ${index === selectedIndex ? 'bg-light-blue' : ''}`}
+              className={`z-999 pa2 pointer ${index === selectedIndex ? '' : ''}`}
+              style={{
+                backgroundColor: index === selectedIndex ? 'var(--theme-bg-tertiary)' : 'transparent',
+                transition: 'background-color 0.15s ease'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--theme-bg-tertiary)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = index === selectedIndex ? 'var(--theme-bg-tertiary)' : 'transparent' }}
               onClick={() => handleSuggestionSelect(suggestion)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -415,10 +428,10 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
               role="button"
               tabIndex={0}
             >
-              <span className="f6">
+              <span className="f6" style={{ color: 'var(--theme-text-primary)' }}>
                 {suggestion.text}
               </span>
-              <span className="ml2 f7 gray">
+              <span className="ml2 f7" style={{ color: 'var(--theme-text-secondary)' }}>
                 {suggestion.type === 'global' && t('logs.autocomplete.globalLevel')}
                 {suggestion.type === 'subsystem' && t('logs.autocomplete.subsystem')}
                 {suggestion.type === 'level' && t('logs.autocomplete.level')}

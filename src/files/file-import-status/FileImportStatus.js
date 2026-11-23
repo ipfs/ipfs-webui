@@ -16,10 +16,10 @@ import { ACTIONS } from '../../bundles/files/consts.js'
 
 const Import = (job, t) =>
   [...groupByPath(job?.message?.entries || new Map()).values()].map(item => (
-    <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={item.path}>
+    <li className="flex w-100 bb b--light-gray items-center f6" style={{ color: 'var(--theme-text-primary)' }} key={item.path}>
       {viewIcon(item)}
       <span className="fileImportStatusName truncate">{item.path}</span>
-      <span className='gray mh2'> |
+      <span className='mh2' style={{ color: 'var(--theme-text-secondary)' }}> |
         { item.entries && (<span> { t('filesImportStatus.count', { count: item.entries.length }) } | </span>) }
         <span className='ml2'>{ humanSize(item.size) }</span>
       </span>
@@ -36,13 +36,13 @@ const FailedImport = (job, t) => {
   const errorMessage = job.error?.message || t('filesImportStatus.unknownError', 'Unknown error')
 
   return (
-    <li className="flex flex-column w-100 bb b--light-gray f6 charcoal" key={job.id?.toString() || path}>
+    <li className="flex flex-column w-100 bb b--light-gray f6" style={{ color: 'var(--theme-text-primary)' }} key={job.id?.toString() || path}>
       <div className="flex items-center">
         <DocumentIcon className="fileImportStatusIcon fileImportStatusIconError pa1" />
         <span className="fileImportStatusName truncate">{path}</span>
-        <GlyphCancel className="dark-red w2 ph1 ml-auto" fill="currentColor"/>
+        <GlyphCancel className="dark-red w2 ph1 ml-auto" style={{ fill: 'var(--theme-text-importStatusError)' }}/>
       </div>
-      <div className="f7 dark-red mt1 truncate" style={{ marginLeft: '36px' }} title={errorMessage}>
+      <div className="f7 mt1 truncate" style={{ marginLeft: '36px', color: 'var(--theme-text-importStatusError)' }} title={errorMessage}>
         {errorMessage}
       </div>
     </li>
@@ -51,8 +51,8 @@ const FailedImport = (job, t) => {
 
 const viewIcon = (entry) =>
   entry.type === 'directory'
-    ? <FolderIcon className="fileImportStatusIcon fill-aqua pa1" />
-    : <DocumentIcon className="fileImportStatusIcon fill-aqua pa1" />
+    ? <FolderIcon className="fileImportStatusIcon pa1" style={{ fill: 'var(--theme-brand-aqua)' }} />
+    : <DocumentIcon className="fileImportStatusIcon pa1" style={{ fill: 'var(--theme-brand-aqua)' }} />
 
 const viewImportStatus = (job, progress) => {
   switch (job.status) {
@@ -154,15 +154,15 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
 
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
-      <div className={`relative br1 dark-gray w-40 center ba b--light-gray bg-white ${containerClass}`} style={{ pointerEvents: 'auto' }}>
+      <div className={`relative br1 w-40 center ba ${containerClass}`} style={{ pointerEvents: 'auto', background: 'var(--theme-bg-modal)', borderColor: 'var(--theme-border-primary)', color: 'var(--theme-text-primary)' }}>
         <div
           tabIndex="0"
           onClick={() => setExpanded(!expanded)}
           onKeyPress={handleExpandByKeyboard}
           role="button"
-          className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between"
+          className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer w-100 justify-between"
           aria-expanded={expanded}
-          style={{ background: '#F0F6FA' }}
+          style={{ background: 'var(--theme-bg-tertiary)', color: 'var(--theme-text-primary)' }}
         >
           <span>
             { filesPending.length

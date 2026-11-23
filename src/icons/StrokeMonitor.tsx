@@ -1,9 +1,41 @@
-import React from 'react'
-import type { SVGProps } from 'react'
-const SvgStrokeMonitor = (props: SVGProps<SVGSVGElement>) => (
+import * as React from 'react'
+
+function StrokeMonitor (props: React.SVGProps<SVGSVGElement>) {
+  return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
-        <path d="M85.92 14.75h-67a6.51 6.51 0 0 0-6.5 6.5v43a6.51 6.51 0 0 0 6.5 6.5h21.24v4.62c0 1.56-1.84 2.88-4 2.88h-.21a3.5 3.5 0 0 0 0 7h33a3.5 3.5 0 0 0 0-7h-1.9c-2.11 0-3.89-1.33-3.89-2.91v-4.59h22.76a6.51 6.51 0 0 0 6.5-6.5v-43a6.51 6.51 0 0 0-6.5-6.5m-67 3h67a3.5 3.5 0 0 1 3.5 3.5v35h-74v-35a3.5 3.5 0 0 1 3.5-3.5m48.13 62.5h1.85a1.5 1.5 0 0 1 0 3h-33a1.5 1.5 0 0 1 0-3h.21c3.32 0 6-2.19 6-4.88v-4.62h19v4.59c.05 2.71 2.69 4.91 5.94 4.91m18.87-12.5h-67a3.5 3.5 0 0 1-3.5-3.5v-7h74v7a3.5 3.5 0 0 1-3.5 3.5" />
-        <path d="M86.54 23.73H18.29v29.63h68.25zm-1 28.63H19.29V24.73h66.25zm-33.12 6.89a3 3 0 1 0 3 3 3 3 0 0 0-3-3m0 5a2 2 0 1 1 2-2 2 2 0 0 1-2 2" />
+      {/* Monitor screen */}
+      <rect
+        x={15}
+        y={20}
+        width={70}
+        height={45}
+        rx={3}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={4}
+      />
+      {/* Monitor stand */}
+      <line
+        x1={50}
+        y1={65}
+        x2={50}
+        y2={75}
+        stroke="currentColor"
+        strokeWidth={4}
+        strokeLinecap="round"
+      />
+      {/* Monitor base */}
+      <line
+        x1={35}
+        y1={75}
+        x2={65}
+        y2={75}
+        stroke="currentColor"
+        strokeWidth={4}
+        strokeLinecap="round"
+      />
     </svg>
-)
-export default SvgStrokeMonitor
+  )
+}
+
+export default StrokeMonitor

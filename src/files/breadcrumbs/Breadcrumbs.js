@@ -54,11 +54,15 @@ const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClic
     <span className='dib pv1 pr1' ref={drop}>
       <button ref={buttonRef} title={link.realName}
         className={classNames('BreadcrumbsButton relative',
-          index !== 0 && 'navy',
+          index !== 0 && '',
           index === 0 && 'f7 pa1 br2 mr2',
-          index === 0 && (immutable ? 'bg-charcoal-muted white' : 'bg-navy white'),
+          index === 0 && (immutable ? 'white' : 'white'),
           immutable && (link.last || index === 0) && 'no-events',
           link.last && 'b', isOver && 'dragging')}
+        style={{
+          color: index !== 0 ? 'var(--theme-navbar-bg)' : 'white',
+          background: index === 0 ? (immutable ? 'var(--theme-text-secondary)' : 'var(--theme-navbar-bg)') : 'transparent'
+        }}
         onClick={() => onClick({ path: link.path })} onContextMenu={(ev) => index !== 0 && handleOnContextMenuHandle(ev)}>
         {link.name}
       </button>
@@ -87,13 +91,13 @@ const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle,
   return (
     <nav aria-label={t('breadcrumbs')} className={classNames('Breadcrumbs flex items-center sans-serif overflow-hidden sticky top-0', className)} {...props}>
       <div className='nowrap overflow-hidden relative flex flex-wrap' ref={ anchors }>
-        <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
+        <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, var(--theme-bg-primary) 0%, transparent 100%)' }} />
 
         { bread.map((link, index) => (
           <div key={`${index}link`}>
             <DropableBreadcrumb index={index} link={link} immutable={isImmutable}
               onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} getPathInfo={doGetPathInfo} checkIfPinned={doCheckIfPinned} />
-            { index !== bread.length - 1 && <span className='dib pr1 pv1 mid-gray v-top'>/</span>}
+            { index !== bread.length - 1 && <span className='dib pr1 pv1 v-top' style={{ color: 'var(--theme-text-secondary)' }}>/</span>}
           </div>
         ))}
 

@@ -65,7 +65,7 @@
 /* full-row hover/focus */
 .logs > .row:hover,
 .logs > .row:focus-within{
-  background-color: var(--light-gray);
+  background-color: var(--theme-bg-tertiary);
 }
 
 .logs .lvl, .logs .sub { white-space: nowrap; }
