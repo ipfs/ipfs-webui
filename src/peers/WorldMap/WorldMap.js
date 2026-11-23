@@ -13,7 +13,7 @@ import Popover from '../../components/popover/Popover.js'
 
 // Styles
 import './WorldMap.css'
-import Cid from '../../components/cid/Cid.js'
+import Cid from '../../components/cid/cid.js'
 
 const calculateWidth = (windowWidth) => {
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
