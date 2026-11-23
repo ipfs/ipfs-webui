@@ -1,5 +1,5 @@
 import React from 'react'
-import { Identicon } from '../identicon/Identicon.js'
+import { Identicon } from '../identicon/identicon.js'
 import ErrorBoundary from '../error/error-boundary.jsx'
 
 export function cidStartAndEnd (value) {
