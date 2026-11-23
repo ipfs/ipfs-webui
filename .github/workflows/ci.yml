@@ -55,7 +55,7 @@ jobs:
       # deploy-release.yml
       - name: Merkleize build/ into a CAR file
         id: car
-        uses: ipfs/ipfs-deploy-action@a18ef08993e485391c5879770d9bc9f1143653ce # v2.0.0
+        uses: ipfs/ipfs-deploy-action@bb46d65c97660ef08ecaf93e9c187afcee668185 # v3.0.0
         with:
           path-to-deploy: build
           car-file-name: ipfs-webui_${{ github.sha }}.car
